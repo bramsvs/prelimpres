@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'Aileron';
+    src: url('Aileron-Regular.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Aileron';
+    src: url('Aileron-Light.otf');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* 
+Aileron-BlackItalic.otf
+Aileron-Black.otf
+Aileron-BoldItalic.otf
+Aileron-Bold.otf
+Aileron-HeavyItalic.otf
+Aileron-Heavy.otf
+Aileron-Italic.otf
+Aileron-LightItalic.otf
+Aileron-Light.otf
+Aileron-Regular.otf
+Aileron-SemiBoldItalic.otf
+Aileron-SemiBold.otf
+Aileron-ThinItalic.otf
+Aileron-Thin.otf
+Aileron-UltraLightItalic.otf
+Aileron-UltraLight.otf */
