@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>reveal.js – The HTML Presentation Framework</title>
+
+  <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+  <meta name="author" content="Hakim El Hattab">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="../css/reveal.css">
+  <link rel="stylesheet" href="../css/theme/delft.css" id="theme">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="http://tikzjax.com/v1/fonts.css">
+  <script src="http://tikzjax.com/v1/tikzjax.js"></script>
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? '../css/print/pdf.css' : '../css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+    var revealInitialized = [];
+  </script>
+
+  <script src="../node_modules/citation-js/build/citation.js"></script>
+
+  <!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+      <section>
+        <h1>Actuator fault detection</h1>
+        <h3></h3>
+        <p>
+          <small>Bram Strack van Schijndel</small>
+        </p>
+      </section>
+
+
+      <section>
+        <section>
+          <h2>Why fault tolerant control?</h2>
+          <!-- <ul>
+            <li>
+            </li>
+          </ul>
+          <p>
+
+          </p> -->
+        </section>
+
+        <section data-background-video="youtube/downloads/3v0GQX5Ptyc.mp4" data-video-time="83">
+          <aside class="notes"></aside>
+        </section>
+
+        <section data-background-video="youtube/downloads/8qMpE-hr2X0.mp4" data-video-time="78">
+          <aside class="notes"></aside>
+        </section>
+
+        <section data-background-video="youtube/downloads/shgeDmgA36I.mp4" data-video-time="44">
+          <aside class="notes"></aside>
+        </section>
+
+
+        <section data-background-video="youtube/downloads/-rJi_78Ef_E.mp4" data-video-time="1">
+          <aside class="notes"></aside>
+        </section>
+
+        <section data-background-video="youtube/downloads/D-988dJbSJU.mp4" data-video-time="10">
+          <aside class="notes"></aside>
+        </section>
+
+        <section data-background-video="youtube/downloads/oWj3ivhWr40.mp4" data-video-time="68">
+          <aside class="notes">What's going on here?</aside>
+        </section>
+
+        <!-- <section data-background-iframe="https://youtube.com/embed/3v0GQX5Ptyc?autoplay=1&start=87" data-background>
+        </section>
+        <section data-background-iframe="https://youtube.com/embed/8qMpE-hr2X0?autoplay=1&start=78" data-background>
+        </section>
+        <section data-background-iframe="https://youtube.com/embed/shgeDmgA36I?autoplay=1&start=44" data-background>
+        </section>
+        <section data-background-iframe="https://youtube.com/embed/-rJi_78Ef_E?autoplay=1&start=1" data-background>
+        </section>
+        <section data-background-iframe="https://youtube.com/embed/D-988dJbSJU?autoplay=1&start=10" data-background>
+        </section>
+        <section data-background-iframe="https://youtube.com/embed/oWj3ivhWr40?autoplay=1&start=68" data-background>
+        </section> -->
+      </section>
+
+
+      <section>
+        <style>
+          .node {
+            cursor: pointer;
+          }
+
+          .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+          }
+
+          .node text {
+            font: 10px sans-serif;
+          }
+
+          .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+          }
+
+          body {
+            overflow: hidden;
+          }
+        </style>
+
+        <section>
+
+          <h2>Fault tree analysis</h2>
+          <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
+            control.</q> -->
+          <p>
+          </p>
+          <aside class="notes"></aside>
+        </section>
+        <section>
+          <script type="text/tikz">
+            \begin{tikzpicture}[
+            % Gates and symbols style
+                and/.style={and gate US,thick,draw,fill=red!60,rotate=90,
+                anchor=east,xshift=-1mm},
+                or/.style={or gate US,thick,draw,fill=blue!60,rotate=90,
+                anchor=east,xshift=-1mm},
+                be/.style={circle,thick,draw,fill=green!60,anchor=north,
+                minimum width=0.7cm},
+                tr/.style={buffer gate US,thick,draw,fill=purple!60,rotate=90,
+                anchor=east,minimum width=0.8cm},
+            % Label style
+                label distance=3mm,
+                every label/.style={blue},
+            % Event style
+                event/.style={rectangle,thick,draw,fill=yellow!20,text width=2cm,
+                text centered,font=\sffamily,anchor=north},
+            % Children and edges style
+                edge from parent/.style={very thick,draw=black!70},
+                edge from parent path={(\tikzparentnode.south) -- ++(0,-1.05cm)
+                  -| (\tikzchildnode.north)},
+                level 1/.style={sibling distance=7cm,level distance=1.4cm,
+                  growth parent anchor=south,nodes=event},
+                level 2/.style={sibling distance=7cm},
+                level 3/.style={sibling distance=6cm},
+                level 4/.style={sibling distance=3cm}
+            %%  For compatability with PGF CVS add the absolute option:
+            %   absolute
+                ]
+            %% Draw events and edges
+                \node (g1) [event] {No flow to receiver}
+                   child{node (g2) {No flow from Component B}   
+                     child {node (g3) {No flow into Component B}
+                        child {node (g4) {No flow from Component A1}
+                           child {node (t1) {No flow from source1}}
+                           child {node (b2) {Component A1 blocks flow}}
+                  }
+                        child {node (g5) {No flow from Component A2}
+                           child {node (t2) {No flow from source2}}
+                           child {node (b3) {Component A2 blocks flow}}
+                  }
+                   }
+                     child {node (b1) {Component B blocks flow}}
+                };
+            %% Place gates and other symbols
+            %% In the CVS version of PGF labels are placed differently than in PGF 2.0
+            %% To render them correctly replace '-20' with 'right' and add the 'absolute'
+            %% option to the tikzpicture environment. The absolute option makes the 
+            %% node labels ignore the rotation of the parent node. 
+               \node [or]	at (g2.south)	[label=-20:G02]	{};
+               \node [and]	at (g3.south)	[label=-20:G03]	{};
+               \node [or]	at (g4.south)	[label=-20:G04]	{};
+               \node [or]	at (g5.south)	[label=-20:G05]	{};
+               \node [be]	at (b1.south)	[label=below:B01]	{};
+               \node [be]	at (b2.south)	[label=below:B02]	{};
+               \node [be]	at (b3.south)	[label=below:B03]	{};
+               \node [tr]	at (t1.south)	[label=below:T01]	{};
+               \node [tr]	at (t2.south)	[label=below:T02]	{};
+            %% Draw system flow diagram
+               \begin{scope}[xshift=-7.5cm,yshift=-5cm,very thick,
+                node distance=1.6cm,on grid,>=stealth',
+                block/.style={rectangle,draw,fill=cyan!20},
+                comp/.style={circle,draw,fill=orange!40}]
+               \node [block] (re)					{Receiver};
+               \node [comp]	 (cb)	[above=of re]			{B}  edge [->] (re);
+               \node [comp]	 (ca1)	[above=of cb,xshift=-0.8cm]	{A1} edge [->] (cb);
+               \node [comp]	 (ca2)	[right=of ca1]			{A2} edge [->] (cb);
+               \node [block] (s1)	[above=of ca1]		{Source1} edge [->] (ca1);
+               \node [block] (s2)	[right=of s1]		{Source2} edge [->] (ca2);
+               \end{scope}
+            \end{tikzpicture}
+          </script>        
+        </section>
+  
+        <section>
+          <div class="fig-container" data-file="faulttree.html"></div>
+        </section>
+
+        <section>
+          <h3>Graceful degradation</h3>
+          <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
+              control.</q> -->
+          <p>
+          </p>
+          <aside class="notes">Loose functions (ex. yaw, altitude/attitude)</aside>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Previous work</h2>
+        </section>
+
+        <section>
+          <p class="fragment fade-out">Mark W. Mueller and Raffaello D'Andrea</p>
+        </section>
+
+        <!-- Indoors -->
+        <section data-background-iframe="https://youtube.com/embed/bsHryqnvyYA?autoplay=1&start=14" data-background>
+        </section>
+
+        <section>
+          <h2></h2>
+          <div data-bib-label="jiangFaultDetectionIdentification2015"></div>
+        </section>
+
+        <!-- Outdoors -->
+        <section data-background-iframe="https://youtube.com/embed/ek0FrCaogcs?autoplay=1&start=32" data-background>
+        </section>
+      </section>
+
+
+      <section>
+        <h3>Graceful degradation</h3>
+        <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
+                control.</q> -->
+        <p>
+        </p>
+        <aside class="notes">Loose functions (ex. yaw, altitude/attitude)</aside>
+      </section>
+
+      <section>
+        <section>
+          <h2>Initial research goal</h2>
+          <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
+            control.</q>
+          <!-- <ul>
+            <li>
+              Not very specific yet
+            </li>
+            <li>
+
+            </li>
+          </ul> -->
+          <p>
+          </p>
+          <aside class="notes">Not very specific yet, let's analyse to get more specific.</aside>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Previous work</h2>
+        </section>
+
+        <section>
+          <p class="fragment fade-out">Mark W. Mueller and Raffaello D'Andrea</p>
+        </section>
+
+        <!-- Indoors -->
+        <section data-background-iframe="https://youtube.com/embed/bsHryqnvyYA?autoplay=1&start=14" data-background>
+          <aside class="notes">https://hiperlab.berkeley.edu/publications/</aside>
+        </section>
+
+        <section>
+          <h2></h2>
+          <div data-bib-label="jiangFaultDetectionIdentification2015"></div>
+        </section>
+
+        <!-- Outdoors -->
+        <section data-background-iframe="https://youtube.com/embed/ek0FrCaogcs?autoplay=1&start=32" data-background>
+        </section>
+      </section>
+
+
+      <script>
+        const Cite = require('citation-js')
+
+        window.Cite = Cite
+        const bibliographyText = fetch('bibliography.bib')
+          .then(response => {
+            return response.text()
+          })
+          .then(response => {
+            const bib = Cite.parse.bibtex.text(response)
+
+            console.log(bib)
+
+            // const label = 'markmuellerQuadrocopterFailsafeAlgorithm'
+
+            const formatSingle = (label) => {
+              console.log(label)
+              const entry = bib.find(entry => entry.label === label)
+
+              let example = new Cite(entry)
+              console.log(entry)
+              return example
+                .format('bibliography', {
+                  format: 'html',
+                  template: 'apa',
+                  lang: 'en-US'
+                })
+            }
+
+            document.querySelectorAll('[data-bib-label]').forEach(el => {
+              const label = el.getAttribute('data-bib-label')
+              el.innerHTML = formatSingle(label)
+              console.log(el)
+            })
+
+          })
+      </script>
+
+      <!-- 
+      <section>
+        <section>
+          <h2>Fault tree analysis</h2>
+          <script src="../node_modules/gojs/release/go.js"></script>
+          <script src="faulttree.js" type="module"></script>
+
+          <div id="sample">
+            <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:600px"></div>
+            <p>
+              <em>Fault trees</em> are used to conduct deductive failure analysis in which an undesired state of a
+              system is analyzed using Boolean logic to combine a series of lower-level events.
+            </p>
+            <p>
+              This diagram uses a basic <a>TreeModel</a> and <a>TreeLayout</a> to layout nodes in a tree structure.
+              The <a>Diagram.nodeTemplate</a> definition allows for text describing the undesirable states and,
+              when necessary, a figure indicating an event/gate.
+            </p>
+            <p>
+              The <b>visible</b> property on some of the node template's <a>Shape</a>s is set based on
+              whether a figure is chosen for the node in the <a>Model.nodeDataArray</a>. The nodes also
+              display a <b>TreeExpanderButton</b> allowing for expanding/collapsing of subtrees.
+              See the <a href="../intro/buttons.html">Intro page on Buttons</a> for more GoJS button information.
+            </p>
+            <p>
+              Related to deductive failure analysis is root cause analysis, or RCA. See the <a
+                href="../extensions/Fishbone.html">fishbone layout</a>
+              extension page for a diagram format typically used in root cause analysis.
+            </p>
+            <div>
+              <div>
+                <button id="SaveButton" onclick="save()">Save</button>
+                <button onclick="load()">Load</button>
+                Diagram Model saved in JSON format:
+              </div>
+              <textarea id="mySavedModel" style="width:100%;height:300px">{ "class": "go.TreeModel",
+            "nodeDataArray": [
+            {"key":1, "text":"No flow to receiver", "figure":"None"},
+            {"key":2, "text":"No flow from Component B", "parent":1, "figure":"OrGate", "choice":"G02"},
+            {"key":3, "text":"No flow into Component B", "parent":2, "figure":"AndGate", "choice":"G03"},
+            {"key":4, "text":"Component B blocks flow", "parent":2, "figure":"Circle", "choice":"B01"},
+            {"key":5, "text":"No flow from Component A1", "parent":3, "figure":"OrGate", "choice":"G04"},
+            {"key":6, "text":"No flow from Component A2", "parent":3, "figure":"OrGate", "choice":"G05"},
+            {"key":7, "text":"No flow from source1", "parent":5, "figure":"Triangle", "choice":"T01"},
+            {"key":8, "text":"Component A1 blocks flow", "parent":5, "figure":"Circle", "fill":"green", "choice":"B02"},
+            {"key":9, "text":"No flow from source2", "parent":6, "figure":"Triangle", "choice":"T02"},
+            {"key":10, "text":"Component A2 blocks flow", "parent":6, "figure":"Circle", "choice":"B03"}
+            ]}
+                </textarea>
+            </div>
+          </div>
+          <aside class="notes"></aside>
+        </section>
+      </section> -->
+
+
+      <section>
+        <section>
+          <h2>Research goal</h2>
+          Find a fault detection
+          <ul>
+            <li>
+              Organized around uORB, modules
+            </li>
+          </ul>
+          <p>
+            reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will
+            show you examples of what it can do.
+          </p>
+        </section>
+        <section>
+          <h2>Parameter estimation</h2>
+          <ul>
+            <li>
+              Organized around uORB, modules
+            </li>
+          </ul>
+          <p>
+            reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will
+            show you examples of what it can do.
+          </p>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Previous work</h2>
+          <script type="text/tikz">
+            \begin{tikzpicture}
+              \draw (0,0) circle (1in);
+            \end{tikzpicture}
+          </script>
+        </section>
+      </section>
+
+
+      <section>
+        <h2>Research strategy</h2>
+        <p>
+          Two steps:
+          <ol>
+            <li>
+              <i>Dramatically</i> decrease time of an iteration cycle
+            </li>
+            <li>
+              Iterate on problem
+            </li>
+          </ol>
+        </p>
+      </section>
+
+      <section>
+          <h2>
+            Why Dramatically
+          </h2>
+      </section>
+
+
+      <section>
+        <section>
+          <h2>Quadrotor model</h2>
+          <p data-markdown>`​``mermaid
+              %% Example with selection of syntaxes
+                      gantt
+                      dateFormat  YYYY-MM-DD
+                      title Adding GANTT diagram functionality to mermaid
+              
+                      section A section
+                      Completed task            :done,    des1, 2014-01-06,2014-01-08
+                      Active task               :active,  des2, 2014-01-09, 3d
+                      Future task               :         des3, after des2, 5d
+                      Future task2               :         des4, after des3, 5d
+              
+                      section Critical tasks
+                      Completed task in the critical line :crit, done, 2014-01-06,24h
+                      Implement parser and jison          :crit, done, after des1, 2d
+                      Create tests for parser             :crit, active, 3d
+                      Future task in critical line        :crit, 5d
+                      Create tests for renderer           :2d
+                      Add to mermaid                      :1d
+              
+                      section Documentation
+                      Describe gantt syntax               :active, a1, after des1, 3d
+                      Add gantt diagram to demo page      :after a1  , 20h
+                      Add another diagram to demo page    :doc1, after a1  , 48h
+              
+                      section Last section
+                      Describe gantt syntax               :after doc1, 3d
+                      Add gantt diagram to demo page      : 20h
+                      Add another diagram to demo page    : 48h
+              ​```</p>
+        </section>
+        <section>
+          <ul>
+            <li>asdf</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>PX4</h2>
+          <ul>
+            <li>
+              Organized around uORB, modules
+            </li>
+          </ul>
+          <p>
+          </p>
+        </section>
+
+        <section id="uorbgraph" class="fig-container" data-file="uorbgraph.html" data-state="uorbgraph">
+        </section>
+        <style>
+          /* Makes background interactive by removing transparent background element */
+          .uorbgraph .slide-background-content {
+            display: none;
+          }
+        </style>
+
+        <section>
+          <aside class="notes">Bridge: What are the limitations?.</aside>
+          <h2>Memory requirements</h2>
+          <table>
+            <th>
+            <td>Flash</td>
+            <td>RAM</td>
+            </th>
+            <tr>
+              <td>PX4</td>
+              <td>2 MB</td>
+              <td>256<ref>[1]</ref>-512<ref>[2]</ref> kB</td>
+            </tr>
+            <tr>
+              <td>PPZ</td>
+              <td>256<ref>[3]</ref>-1024<ref>[4]</ref> kB</td>
+              <td>16<ref>[3]</ref>-192<ref>[4]</ref> kB</td>
+            </tr>
+          </table>
+          <p>
+            <small>
+              1) <a href="https://docs.px4.io/en/flight_controller/pixracer.html">Pixracer</a> <br>
+              2) <a href="https://docs.px4.io/en/flight_controller/pixhawk4.html#quick-summary">Pixhawk 4</a><br>
+              3) <a href="https://wiki.paparazziuav.org/wiki/Lisa/S">Lisa/S</a><br>
+              4) <a href="https://wiki.paparazziuav.org/wiki/Category:Autopilots">Elle0</a>
+            </small>
+          </p>
+        </section>
+
+      </section>
+
+      <!-- Example of nested vertical slides -->
+      <section>
+        <section>
+          <h2>Python packages</h2>
+        </section>
+        <section>
+          <h2>matlablib</h2>
+          <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.
+          </p>
+          <code>
+
+          </code>
+        </section>
+
+      </section>
+
+
+      <section style="text-align: left;">
+        <h1>THE END</h1>
+        <!-- <p>
+          - <a href="https://slides.com">Try the online editor</a> <br>
+          - <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+        </p> -->
+      </section>
+
+      <section>
+        <section>
+          <h2>Extras</h2>
+        </section>
+        <section>
+          <h2>How this presentation?</h2>
+          <p>https://github.com/hakimel/reveal.js/#full-setup</p>
+        </section>
+
+        <section>
+          <h2>Codegen: limitations</h2>
+          <p>
+            <ul>
+              <li>
+                Only signals, parameters as input, no events
+              </li>
+              <li>
+                Fixed timestep
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Codegen: related work</h2>
+          <p>
+            <ul>
+              <li>
+                Only signals, parameters as input, no events
+              </li>
+              <li>
+                Fixed timestep
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Reference frames</h2>
+          <ul>
+            <li>
+              Body
+            </li>
+            <li>
+              Inertial
+            </li>
+          </ul>
+        </section>
+        <section data-background-iframe="https://www.urbandictionary.com/define.php?term=pissing%20contest">
+        </section>
+      </section>
+
+    </div>
+
+  </div>
+
+  <script src="../lib/js/head.min.js"></script>
+  <script src="../js/reveal.js"></script>
+
+  <script>
+
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      controlsTutorial: false,
+
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+      math: {
+        mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+        config: 'TeX-AMS_HTML-full',  // See http://docs.mathjax.org/en/latest/config-files.html
+        katexScript: '../plugin/math-katex/lib/katex-0.7.1/katex.min.js',
+        katexStylesheet: '../plugin/math-katex/lib/katex-0.7.1/katex.min.css'
+      },
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+        { src: '../lib/js/classList.js', condition: function () { return !document.body.classList; } },
+        { src: '../plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+        { src: '../plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+        { src: '../plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+        { src: '../plugin/search/search.js', async: true },
+        { src: '../plugin/zoom-js/zoom.js', async: true },
+        { src: '../plugin/notes/notes.js', async: true },
+        { src: '../plugin/math/math.js', async: true },
+        // { src: '../plugin/math-katex/math-katex.js', async: true }, // interferes with d3/uorbgraph
+        { src: '../node_modules/reveald3/reveald3.js' },
+      ],
+
+      keyboard: {
+        '82': () => {
+          toggleControls(getPresentBackgroundVideo())
+        }
+      }
+
+    });
+
+    revealInitialized.forEach(fun => fun(Reveal));
+
+    function getPresentBackgroundVideo() {
+      return document.querySelector('.stack.present .present video')
+    }
+
+    function getBackgroundVideos() {
+      return document.querySelector('video')
+    }
+
+    function toggleControls(video) {
+      // https://stackoverflow.com/questions/5399412/html5-video-show-hide-controls-programmatically
+      if (video.hasAttribute("controls")) {
+        video.removeAttribute("controls")
+      } else {
+        video.setAttribute("controls", "controls")
+      }
+    }
+
+    // function setTimes() {
+    //   document.querySelector('section').forEach((section) => {
+    //     if (section.hasAttribute('data-background-video') && section.hasAttribute('data-video-start')) {
+    //     }
+    //   })
+    // }
+
+    Reveal.addEventListener('slidechanged', event => {
+      const slide = event.currentSlide
+      const time = event.currentSlide.getAttribute('data-video-time')
+
+      // can't find video element without timeout
+      setTimeout(() => {
+        if (time) {
+          const video = slide.slideBackgroundElement.querySelector('video');
+          video.currentTime = time
+          video.pause()
+        }
+      }, 0)
+    })
+
+  </script>
+
+</body>
+
+</html>
