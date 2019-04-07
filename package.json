@@ -39,5 +39,10 @@
     "mustache": "^2.3.0",
     "socket.io": "^1.7.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "citation-js": "^0.4.0-12",
+    "highlightjs": "^9.12.0",
+    "reveald3": "^1.4.7"
+  }
 }
