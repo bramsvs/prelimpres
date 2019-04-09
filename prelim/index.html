@@ -25,7 +25,7 @@
 
   <link rel="stylesheet" type="text/css" href="http://tikzjax.com/v1/fonts.css">
   <script src="http://tikzjax.com/v1/tikzjax.js"></script>
-
+  <script src="path/to/autolinker/dist/Autolinker.min.js"></script>
   <!-- Printing and PDF exports -->
   <script>
     var link = document.createElement('link');
@@ -37,6 +37,7 @@
   </script>
 
   <script src="../node_modules/citation-js/build/citation.js"></script>
+  <script src="../node_modules/autolinker/dist/Autolinker.min.js"></script>
 
   <!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -95,6 +96,10 @@
           <aside class="notes">What's going on here?</aside>
         </section>
 
+
+        <section data-background-video="youtube/downloads/kq_Hgg5J-rQ.mp4" data-video-time="716">
+          <aside class="notes">Broken actuator. Nice how gimbal stays steady</aside>
+        </section>
         <!-- <section data-background-iframe="https://youtube.com/embed/3v0GQX5Ptyc?autoplay=1&start=87" data-background>
         </section>
         <section data-background-iframe="https://youtube.com/embed/8qMpE-hr2X0?autoplay=1&start=78" data-background>
@@ -108,14 +113,11 @@
         <section data-background-iframe="https://youtube.com/embed/oWj3ivhWr40?autoplay=1&start=68" data-background>
         </section> -->
 
-        <section data-background-iframe="https://www.youtube.com/embed/2nDEEw3VjNU?autoplay=1" data-background>
-          <aside class="notes">Dji Inspire 2 losing prop, 3 prop flight</aside>
-        </section>
 
-        <section data-background-iframe="https://www.youtube.com/embed/kq_Hgg5J-rQ?autoplay=1&start=715"
+        <!-- <section data-background-iframe="https://www.youtube.com/embed/kq_Hgg5J-rQ?autoplay=1&start=715"
           data-background>
           <aside class="notes">Dji Inspire 2 losing prop, 3 prop flight</aside>
-        </section>
+        </section> -->
 
       </section>
 
@@ -152,8 +154,21 @@
           <h2>Fault tree analysis</h2>
           <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
             control.</q> -->
-          <p>
-          </p>
+          <div class="stack-container">
+            <img src="tikz/FT_base.svg" width="120%" class="fragment fade-out no-border center no-shadow stack"
+              data-fragment-index="0"></img>
+            <img src="tikz/FT_base_prob.svg" width="120%" class="fragment fade-in no-border center no-shadow stack"
+              data-fragment-index="0"></img>
+          </div>
+          <aside class="notes">Cause <-> effect <br> asdf</aside>
+        </section>
+
+        <section>
+
+          <h2>Fault tree analysis</h2>
+          <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
+              control.</q> -->
+
           <aside class="notes"></aside>
         </section>
         <section>
@@ -165,13 +180,34 @@
 
         <section>
           <h3>Graceful degradation</h3>
-          <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
-              control.</q> -->
           <p>
+            <ul>
+              <li>
+                More optimistic than fail safe
+              </li>
+              <li>
+                Gracefully give up functions like:
+              </li>
+              <ul>
+                <li>
+                  Yaw control
+                </li>
+                <li>
+                  Altitude control
+                </li>
+                <li>
+                  Pitch and/or roll control
+                </li>
+                <li>
+                  Position control
+                </li>
+              </ul>
+            </ul>
           </p>
-          <aside class="notes">Loose functions (ex. yaw, altitude/attitude)</aside>
+          <aside class="notes">What we're looking for is graceful degradation</aside>
         </section>
       </section>
+
 
       <section>
         <section>
@@ -179,75 +215,93 @@
         </section>
 
         <section>
-          <p class="fragment fade-out">Mark W. Mueller and Raffaello D'Andrea</p>
+          <small data-bib-label="smeurAdaptiveIncrementalNonlinear"></small>
+          <!-- <small data-bib-label="jiangFaultDetectionIdentification2015"></small> -->
         </section>
 
-        <!-- Indoors -->
-        <section data-background-iframe="https://youtube.com/embed/bsHryqnvyYA?autoplay=1&start=14" data-background>
+        <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
+        <section data-background-iframe="media/Peng.pdf#zoom=160&page=1">
         </section>
 
         <section>
-          <h2></h2>
-          <div data-bib-label="jiangFaultDetectionIdentification2015"></div>
+          <code class="no-code-but-p" data-markdown>
+## Key points
+- Pseudoinverse
+- Sensitive to noise
+            </code>
+          <aside class="notes">We used this as the base line controller. To synchronize. 4 actuators x 4 accelerations +
+            4 actuator accelerations.</aside>
         </section>
 
-        <!-- Outdoors -->
-        <section data-background-iframe="https://youtube.com/embed/ek0FrCaogcs?autoplay=1&start=32" data-background>
-        </section>
-      </section>
-
-
-      <section>
-        <h3>Graceful degradation</h3>
-        <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
-                control.</q> -->
-        <p>
-        </p>
-        <aside class="notes">Loose functions (ex. yaw, altitude/attitude)</aside>
-      </section>
-
-      <section>
-        <section>
-          <h2>Initial research goal</h2>
-          <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
-            control.</q>
-          <!-- <ul>
-            <li>
-              Not very specific yet
-            </li>
-            <li>
-
-            </li>
-          </ul> -->
+        <section class="small">
           <p>
+            <ul>
+              <li>
+                Pseudoinverse
+              </li>
+            </ul>
           </p>
-          <aside class="notes">Not very specific yet, let's analyse to get more specific.</aside>
+          <p class="data-markdown">$b$ thrust coefficient $$\left[ \begin{array}{c}{T} \\ {\tau_{x}} \\ {\tau_{y}} \\
+            {\tau_{z}}\end{array}\right]=\left[ \begin{array}{cccc}{b} & {b} & {b} & {b} \\ {0} & {-L b} & {0} & {L b}
+            \\ {L b} & {0} & {-L b} & {0} \\ {-d} & {d} & {-d} & {d}\end{array}\right] \left[
+            \begin{array}{c}{\omega_{1}^{2}} \\ {\omega_{2}^{2}} \\ {\omega_{3}^{2}} \\
+            {\omega_{4}^{2}}\end{array}\right] :=A_{h} \left[ \begin{array}{c}{\omega_{1}^{2}} \\ {\omega_{2}^{2}} \\
+            {\omega_{3}^{2}} \\ {\omega_{4}^{2}}\end{array}\right]$$</p>
         </section>
-      </section>
-      <section>
+
+        <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
+        <section data-background-iframe="media/Smeur.pdf#zoom=160&page=1">
+        </section>
+
         <section>
-          <h2>Previous work</h2>
+          <code class="no-code-but-p" data-markdown>
+## Key points
+- INDI, so:
+ - Takes derivative of rotational rates
+ - Makes use of rotor speed measurements
+ - Runs both measurements through same LP filter
+- Adaptive: 
+ - Estimating 16 + 4 control effectiveness parameters
+ - Using LMS
+ - Takes seconds to converge
+          </code>
+          <aside class="notes">We used this as the base line controller. To synchronize. 4 actuators x 4 accelerations +
+            4 actuator accelerations.</aside>
+        </section>
+
+        <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
+        <section data-background-iframe="media/Smeur.pdf#zoom=160&page=14">
         </section>
 
         <section>
           <p class="fragment fade-out">Mark W. Mueller and Raffaello D'Andrea</p>
         </section>
 
-        <!-- Indoors -->
+        <section data-background-video="youtube/downloads/bsHryqnvyYA.mp4" data-video-time="14">
+          <aside class="notes">
+            - No fault detection method published
+
+            https://hiperlab.berkeley.edu/publications/
+          </aside>
+        </section>
+
+        <section data-background-video="youtube/downloads/ek0FrCaogcs.mp4" data-video-time="32">
+          <aside class="notes"></aside>
+        </section>
+        <!-- 
         <section data-background-iframe="https://youtube.com/embed/bsHryqnvyYA?autoplay=1&start=14" data-background>
-          <aside class="notes">https://hiperlab.berkeley.edu/publications/</aside>
+          <aside class="notes">
+            - No fault detection method published
+
+            https://hiperlab.berkeley.edu/publications/
+          </aside>
         </section>
 
-        <section>
-          <h2></h2>
-          <div data-bib-label="jiangFaultDetectionIdentification2015"></div>
-        </section>
-
-        <!-- Outdoors -->
         <section data-background-iframe="https://youtube.com/embed/ek0FrCaogcs?autoplay=1&start=32" data-background>
-        </section>
-      </section>
+          <aside class="notes"></aside>
+        </section> -->
 
+      </section>
 
       <script>
         const Cite = require('citation-js')
@@ -260,16 +314,14 @@
           .then(response => {
             const bib = Cite.parse.bibtex.text(response)
 
-            console.log(bib)
-
-            // const label = 'markmuellerQuadrocopterFailsafeAlgorithm'
+            // console.log(bib)
 
             const formatSingle = (label) => {
-              console.log(label)
+              // console.log(label)
               const entry = bib.find(entry => entry.label === label)
 
               let example = new Cite(entry)
-              console.log(entry)
+              // console.log(entry)
               return example
                 .format('bibliography', {
                   format: 'html',
@@ -280,154 +332,198 @@
 
             document.querySelectorAll('[data-bib-label]').forEach(el => {
               const label = el.getAttribute('data-bib-label')
-              el.innerHTML = formatSingle(label)
-              console.log(el)
+              const unlinkedText = formatSingle(label)
+              const linkedText = Autolinker.link(unlinkedText);
+              el.innerHTML = linkedText
+              // console.log(el)
             })
 
           })
       </script>
 
-      <!-- 
       <section>
-        <section>
-          <h2>Fault tree analysis</h2>
-          <script src="../node_modules/gojs/release/go.js"></script>
-          <script src="faulttree.js" type="module"></script>
 
-          <div id="sample">
-            <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:600px"></div>
-            <p>
-              <em>Fault trees</em> are used to conduct deductive failure analysis in which an undesired state of a
-              system is analyzed using Boolean logic to combine a series of lower-level events.
-            </p>
-            <p>
-              This diagram uses a basic <a>TreeModel</a> and <a>TreeLayout</a> to layout nodes in a tree structure.
-              The <a>Diagram.nodeTemplate</a> definition allows for text describing the undesirable states and,
-              when necessary, a figure indicating an event/gate.
-            </p>
-            <p>
-              The <b>visible</b> property on some of the node template's <a>Shape</a>s is set based on
-              whether a figure is chosen for the node in the <a>Model.nodeDataArray</a>. The nodes also
-              display a <b>TreeExpanderButton</b> allowing for expanding/collapsing of subtrees.
-              See the <a href="../intro/buttons.html">Intro page on Buttons</a> for more GoJS button information.
-            </p>
-            <p>
-              Related to deductive failure analysis is root cause analysis, or RCA. See the <a
-                href="../extensions/Fishbone.html">fishbone layout</a>
-              extension page for a diagram format typically used in root cause analysis.
-            </p>
-            <div>
-              <div>
-                <button id="SaveButton" onclick="save()">Save</button>
-                <button onclick="load()">Load</button>
-                Diagram Model saved in JSON format:
-              </div>
-              <textarea id="mySavedModel" style="width:100%;height:300px">{ "class": "go.TreeModel",
-            "nodeDataArray": [
-            {"key":1, "text":"No flow to receiver", "figure":"None"},
-            {"key":2, "text":"No flow from Component B", "parent":1, "figure":"OrGate", "choice":"G02"},
-            {"key":3, "text":"No flow into Component B", "parent":2, "figure":"AndGate", "choice":"G03"},
-            {"key":4, "text":"Component B blocks flow", "parent":2, "figure":"Circle", "choice":"B01"},
-            {"key":5, "text":"No flow from Component A1", "parent":3, "figure":"OrGate", "choice":"G04"},
-            {"key":6, "text":"No flow from Component A2", "parent":3, "figure":"OrGate", "choice":"G05"},
-            {"key":7, "text":"No flow from source1", "parent":5, "figure":"Triangle", "choice":"T01"},
-            {"key":8, "text":"Component A1 blocks flow", "parent":5, "figure":"Circle", "fill":"green", "choice":"B02"},
-            {"key":9, "text":"No flow from source2", "parent":6, "figure":"Triangle", "choice":"T02"},
-            {"key":10, "text":"Component A2 blocks flow", "parent":6, "figure":"Circle", "choice":"B03"}
-            ]}
-                </textarea>
-            </div>
-          </div>
-          <aside class="notes"></aside>
-        </section>
-      </section> -->
-
-
-      <section>
         <section>
           <h2>Research goal</h2>
-          Find a fault detection
-          <ul>
-            <li>
-              Organized around uORB, modules
-            </li>
-          </ul>
+          <q>Find an efficient and reliable fault detection and isolation method that detects actuator faults.</q>
           <p>
-            reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will
-            show you examples of what it can do.
           </p>
+          <aside class="notes">Not very specific yet. How to find such thing? Ultimately an optimization problem.
+          </aside>
         </section>
+
         <section>
-          <h2>Parameter estimation</h2>
-          <ul>
-            <li>
-              Organized around uORB, modules
-            </li>
-          </ul>
+          <h2>Solution space</h2>
+          <code class="no-code-but-p" data-markdown>
+- Input signals?
+ - Direct, filtered and/or debiased IMU measurements
+ - Rotor speed measurements or setpoints
+ - Fused estimator outputs
+- Observers?
+ - Thau, Kalman, Luenberger
+ - Direct inverse
+- Estimators?
+ - LMS, RLS, Kalman, moving window, forgetting factor
+- Detection & isolation?
+ - Thresholds on residuals or estimated parameters
+        </code>
+          <aside class="notes">Rotational rates, accelerometers. There is more to this. Debatable.</aside>
+        </section>
+
+
+        <section>
+          <h2>Research strategy</h2>
           <p>
-            reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will
-            show you examples of what it can do.
+            Two main steps:
+            <ol>
+              <li>
+                <i>Dramatically</i> speed up iterative development process
+              </li>
+              <li>
+                Iterate on problem
+              </li>
+            </ol>
           </p>
+          <aside class="notes">Coming up with a good solutions requires a iterative approach, not sequential.</aside>
         </section>
       </section>
 
-
       <section>
-        <h2>Research strategy</h2>
-        <p>
-          Two steps:
-          <ol>
-            <li>
-              <i>Dramatically</i> decrease time of an iteration cycle
-            </li>
-            <li>
-              Iterate on problem
-            </li>
-          </ol>
-        </p>
-      </section>
+        <section>
+          <h2>Iteration</h2>
+          <p>
+            <ol>
+              <li>
+                Design, simulate system in Simulink
+              </li>
+              <li>
+                Implement solution in quadrotor/MAV
+              </li>
+              <li>
+                Run some flight test sequence
+              </li>
+              <li>
+                Retrieve, visualize log data
+              </li>
+              <li>
+                Check assumptions, performance, adjust design
+              </li>
+            </ol>
+          </p>
+          <aside class="notes">Let's look at what iteration looks like. Debatable.<br>
+            Assuming we have a model (we have)<br>
+            System can be for example a controller or observer<br>
+            1) verification 5) validation
+          </aside>
+        </section>
 
-      <section>
         <section>
           <h2>Automation example</h2>
-          <p data-markdown>``</p>
-          <aside class="notes">Silly example</aside>
+          <code class="no-code-but-p" data-markdown>
+To go from Simulink model to C++ library to be used in PX4
+</code>
+          <aside class="notes">Silly example, iteration step 2</aside>
         </section>
 
         <section>
-          <h2>Simulink coder</h2>
-          <p data-markdown></p>
+          <img src="media/ratecontrol.png" class="no-border"></img>
           <aside class="notes">Pressing buttons</aside>
         </section>
 
         <section>
-          <h2>Simulink coder</h2>
-          <p data-markdown></p>
-          <aside class="notes">Script</aside>
+          <img src="media/coder_options.png" class="no-border"></img>
+          <aside class="notes"></aside>
         </section>
 
-
-
+        <section>
+          <img src="media/ratecontrol.png" class="no-border"></img>
+          <img src="media/coder_button.png" class="inset fragment" style="left: 420px; top: 20px"></img>
+          <aside class="notes">Couple of issues 1) I can only communicate this process via word of mouth or by writing a
+            manual. 2) </aside>
+        </section>
 
         <section>
-          <h2>Simulink coder</h2>
-          <pre class="bash"><code>
+          <pre class="matlab"><code>
+% codegen.m
+
+%% Script meant to:
+% - generate C++ code from Simulink model
+% - move code to 'simulink_wrapper', px4-module
+% - also copy needed CMakeLists.txt
+%%
+
+%% Build Simulink subsystem
+model = 'quadrotor/Controller/Primary_axis_INDI_controller/attitude_controller/INDI_allocator'
+rtwbuild(model)
+% rtwbuild clears all variables!
+
+verbose = true;
+
+%% Unzip "packNGo"-package to temp folder
+modelName = 'INDI_allocator';
+tempUnzipDir = './temp/';
+unzip(strcat(modelName, '.zip'), strcat(tempUnzipDir, modelName));
+
+%% Move generated files to codegen folder in px4
+px4CodegenParentDir = '~/src/Firmware/src/modules/simulink_wrapper/';
+px4CodegenDirName = 'codegen';
+px4CodegenDir = strcat(px4CodegenParentDir, px4CodegenDirName);
+rmdir(px4CodegenDir, 's');
+mkdir(px4CodegenParentDir, px4CodegenDirName);
+
+tempFilesAndFolders = dir(strcat(tempUnzipDir, '**'));
+
+successCount = 0;
+for i = 1:numel(tempFilesAndFolders)
+    fileOrFolder = tempFilesAndFolders(i);
     
-              $ echo "Hello, world!"
-              $ if [ -e README ]; then
-              > echo 'README exists.'
-              > else
-              > echo "README doesn't exist."
-              > fi
-                  
+    if fileOrFolder.isdir == false
+        file = strcat(fileOrFolder.folder, '/', fileOrFolder.name);
+        successCount = successCount + copyToPx4Codegen(file, px4CodegenDir, verbose);
+    end
+end
+
+% Move CMakeLists.txt..
+currentPath = fileparts(mfilename('fullpath'));
+cmakePath = strcat(currentPath, '/CMakeLists.txt');
+successCount = successCount + copyToPx4Codegen(cmakePath, px4CodegenDir, verbose);
+
+fprintf('Files moved: %i\n', successCount)
+
+function [success] = copyToPx4Codegen(file, px4CodegenDir, verbose)
+    [success, message] = copyfile(file, px4CodegenDir);
+    if verbose, disp(message), end
+end
               </code></pre>
-          <aside class="notes">Script</aside>
+          <aside class="notes">Better. Script, can send this around via email.</aside>
+        </section>
+
+        <section>
+          <!-- <h2>Python</h2> -->
+          <img src="media/mostlovedlangs.png" class="no-border center" height="500px"></img>
+          <small><a href="https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-languages">Stackoverflow 2019 Developer Survey</a></small>
+          <aside class="notes"></aside>
         </section>
 
         <section>
           <h2>Python</h2>
-          <p data-markdown></p>
-          <aside class="notes">Control Simulink from Python</aside>
+          <pre class="python"><code>
+# test_matlablib.py
+
+from matlablib import Matlab, Model, codegen
+
+PROJECT_ROOT = "./simulink_model"
+SYSTEM_FILE = "./Control/RateControl/RateControl.slx"
+MODEL = "RateControl"
+
+def test_codegen(project):
+    model = Model(project, SYSTEM_FILE, MODEL)
+    codegen(model)
+    model.engine.quit()
+          </code></pre>
+
+          <aside class="notes">matlablib.py is Python wrapper around a Simulink model, Pytest</aside>
+
         </section>
 
         <section>
@@ -474,7 +570,20 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
       ),
       px4_input_log_topic="pos_direct_control_input",
       example_input_data="",
-  )
+  ),
+  "URControl": ModelConfig(
+      system_file="./Control/URControl/URControl.slx",
+      model="URControl",
+      parameters=SimulinkCoderParameters(),
+      target_directory=str(
+          Path(
+              "~/src/Firmware/src/modules/sl_urcontrol/URControl"
+              # is PX4 library
+          ).expanduser()
+      ),
+      px4_input_log_topic="urcontrol_input",
+      example_input_data="",
+  ),
 }
               </code></pre>
           <aside class="notes">Configurable</aside>
@@ -482,38 +591,145 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
 
         <section>
           <h2>Command line interface (CLI)</h2>
-          <p data-markdown></p>
+          <pre class="shell"><code>
+$ dc 
+Usage: dc [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  codegen     Run MATLAB code generation.
+  print-path  Print Python path.
+  qgc         Start QGroundControl.
+  replay      Run ulog file replay.
+  toptest
+$ █
+              </code></pre>
           <aside class="notes">Solution that scales to multiple use cases and is friendly to new people</aside>
+        </section>
+
+        <section>
+          <pre class="shell"><code>
+$ dc codegen --help
+Usage: dc codegen [OPTIONS]
+
+  Run MATLAB code generation.
+
+Options:
+  -m, --model [RateControl|AttitudeControl|PosDirectControl|URControl]
+                                  Model options are defined in
+                                  `simulink_model/config.py`  [required]
+  --help                          Show this message and exit.
+$ █
+          </code></pre>
+
+          <aside class="notes">(example) codegen help, <br>note model options</aside>
+
+        </section>
+      </section>
+
+
+      <section>
+        <h2>Some benefits</h2>
+        <p>
+          <ul>
+            <li>
+              Faster progress in advancing flight control
+            </li>
+            <li>
+              More repeatable experiments and results
+            </li>
+            <li>
+              Much faster onboarding of new people
+            </li>
+          </ul>
+        </p>
+        <p data-markdown></p>
+        <aside class="notes">Less errors. Scripts and source control. Keep track of changes. Still lot to do.</aside>
+      </section>
+      </section>
+
+      <section>
+
+        <section>
+          <h2>Propeller ejection</h2>
+          <aside class="notes">
+          </aside>
+        </section>
+
+        <section>
+          <img height="600px" src="media/carved_out_prop.jpg" style="margin: 15px auto; display: block">
+          <aside class="notes">
+          </aside>
+        </section>
+
+
+        <section data-background-video="media/prop_eject.mp4" data-video-time="1">
+          <aside class="notes">
+            Look at front right propeller (most left one for us)
+          </aside>
+        </section>
+
+        <section data-background-video="media/prop_eject_recover.mp4" data-video-time="0">
+          <aside class="notes">
+          </aside>
+        </section>
+
+        <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
+          <aside class="notes">
+            Unmodeled dynamics example
+          </aside>
         </section>
       </section>
 
       <section>
-        <section>
+
+        <!-- <section>
           <h2>Quadrotor model</h2>
           <p data-markdown>`$$
-            \left[ \begin{array}{@{}cc@{}}
-            a & b \\ \hline
-            c & d
-            \end{array} \right]
-            %
-            \left[ \begin{array}{cc}
-            a & b \\ \hdashline
-            c & d
-            \end{array} \right]
             \begin{bmatrix}
             \dot{p} \\
             \dot{q} \\
-            \dot{r} \\
+            a_z \\
             \end{bmatrix}
             =
             I^{-1} \cdot{c_T}
             \begin{bmatrix}
-            -b & b & b & -b \\
-            h & h & -h & -h \\
-            \cmidrule(lr){1-2}
+            b & -b & -b & b \\
+            h & h & -h & -h \\ \hdashline
             c_M.. \\
             \end{bmatrix}
-            \pmb{\omega^2}
+            \begin{bmatrix}
+            \omega_1^2 \\
+            \omega_2^2 \\
+            \omega_3^2 \\
+            \omega_4^2 \\
+            \end{bmatrix}
+            $$`</p>
+        </section> -->
+
+        <section>
+          <h2>Control effectiveness model</h2>
+          <p data-markdown>`$$
+            \begin{bmatrix}
+            \dot{p} \\
+            \dot{q} \\ \hdashline
+            a_z \\
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+            b \omega_1^2 & -b \omega_2^2 & -b \omega_3^2 & b \omega_4^2 \\
+            h \omega_1^2 & h \omega_2^2 & -h \omega_3^2 & -h \omega_4^2 \\ \hdashline
+            c_m \omega_1^2 & c_m \omega_2^2 & c_m \omega_3^2 & c_m \omega_4^2 \\
+            \end{bmatrix}
+            \begin{bmatrix}
+            k_1 \\
+            k_2 \\
+            k_3 \\
+            k_4 \\
+            \end{bmatrix}
             $$`</p>
         </section>
         <section>
@@ -523,77 +739,9 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
         </section>
       </section>
 
-      <section>
-        <section>
-          <h2>PX4</h2>
-          <ul>
-            <li>
-              Organized around uORB, modules
-            </li>
-          </ul>
-          <p>
-          </p>
-        </section>
-
-        <section id="uorbgraph" class="fig-container" data-file="uorbgraph.html" data-state="uorbgraph">
-        </section>
-        <style>
-          /* Makes background interactive by removing transparent background element */
-          .uorbgraph .slide-background-content {
-            display: none;
-          }
-        </style>
-
-        <section>
-          <aside class="notes">Bridge: What are the limitations?.</aside>
-          <h2>Memory requirements</h2>
-          <table>
-            <th>
-            <td>Flash</td>
-            <td>RAM</td>
-            </th>
-            <tr>
-              <td>PX4</td>
-              <td>2 MB</td>
-              <td>256<ref>[1]</ref>-512<ref>[2]</ref> kB</td>
-            </tr>
-            <tr>
-              <td>PPZ</td>
-              <td>256<ref>[3]</ref>-1024<ref>[4]</ref> kB</td>
-              <td>16<ref>[3]</ref>-192<ref>[4]</ref> kB</td>
-            </tr>
-          </table>
-          <p>
-            <small>
-              1) <a href="https://docs.px4.io/en/flight_controller/pixracer.html">Pixracer</a> <br>
-              2) <a href="https://docs.px4.io/en/flight_controller/pixhawk4.html#quick-summary">Pixhawk 4</a><br>
-              3) <a href="https://wiki.paparazziuav.org/wiki/Lisa/S">Lisa/S</a><br>
-              4) <a href="https://wiki.paparazziuav.org/wiki/Category:Autopilots">Elle0</a>
-            </small>
-          </p>
-        </section>
-
-      </section>
-
-      <!-- Example of nested vertical slides -->
-      <section>
-        <section>
-          <h2>Python packages</h2>
-        </section>
-        <section>
-          <h2>matlablib</h2>
-          <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.
-          </p>
-          <code>
-
-          </code>
-        </section>
-
-      </section>
-
 
       <section style="text-align: left;">
-        <h1>THE END</h1>
+        <h3>Questions? Comments?</h3>
         <!-- <p>
           - <a href="https://slides.com">Try the online editor</a> <br>
           - <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
@@ -626,15 +774,37 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
         <section>
           <h2>Codegen: related work</h2>
           <p>
-            <ul>
-              <li>
-                Only signals, parameters as input, no events
-              </li>
-              <li>
-                Fixed timestep
-              </li>
-            </ul>
+            <small data-bib-label="kochNeuroflightNextGeneration"></small>
           </p>
+        </section>
+
+        <section>
+          <h2>Memory requirements</h2>
+          <table>
+            <th>
+            <td>Flash</td>
+            <td>RAM</td>
+            </th>
+            <tr>
+              <td>PX4</td>
+              <td>2 MB</td>
+              <td>256<ref>[1]</ref>-512<ref>[2]</ref> kB</td>
+            </tr>
+            <tr>
+              <td>PPZ</td>
+              <td>256<ref>[3]</ref>-1024<ref>[4]</ref> kB</td>
+              <td>16<ref>[3]</ref>-192<ref>[4]</ref> kB</td>
+            </tr>
+          </table>
+          <p>
+            <small>
+              1) <a href="https://docs.px4.io/en/flight_controller/pixracer.html">Pixracer</a> <br>
+              2) <a href="https://docs.px4.io/en/flight_controller/pixhawk4.html#quick-summary">Pixhawk 4</a><br>
+              3) <a href="https://wiki.paparazziuav.org/wiki/Lisa/S">Lisa/S</a><br>
+              4) <a href="https://wiki.paparazziuav.org/wiki/Category:Autopilots">Elle0</a>
+            </small>
+          </p>
+          <aside class="notes">Bridge: What are the limitations?.</aside>
         </section>
 
         <section>
@@ -653,9 +823,14 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
           <aside class="notes">Kid crash</aside>
         </section>
 
+        <section data-background-iframe="https://www.youtube.com/embed/2nDEEw3VjNU?autoplay=1" data-background>
+          <aside class="notes">Dji Inspire 2 losing prop, 3 prop flight</aside>
+        </section>
+
         <section>
           <h2>INDI</h2>
-          <pre class="bash"><code>
+          <pre class="bash">
+            <code>
     
               $ echo "Hello, world!"
               $ if [ -e README ]; then
@@ -663,10 +838,79 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
               > else
               > echo "README doesn't exist."
               > fi
-                  
-              </code></pre>
+
+            </code>
+          </pre>
+          <p data-markdown>`$$\boldsymbol{\omega}=\boldsymbol{\omega}_{f}+\left(\boldsymbol{G}_{1}
+            \operatorname{diag}\left(\boldsymbol{\omega}_{f}\right)+\boldsymbol{G}_{2}-\boldsymbol{C}\left(\boldsymbol{\Omega}_{f}\right)
+            \boldsymbol{G}_{3}\right)^{+}\left(\boldsymbol{\nu}-\dot{\boldsymbol{\Omega}}_{f}+\boldsymbol{G}_{2}
+            z^{-1}\left(\boldsymbol{\omega}-\boldsymbol{\omega}_{f}\right)\right)$$`
+          </p>
         </section>
 
+
+        <section>
+          <pre class="python"><code>
+  import click
+  
+  from simulink_model import Api, MODEL_CONFIGS
+  
+  MODELS = MODEL_CONFIGS.keys()
+  
+  
+  @cli.command(help="Run MATLAB code generation.")
+  @click.option(
+      "--model",
+      "-m",
+      "models",
+      type=click.Choice(MODELS),
+      required=True,
+      multiple=True,
+      help="Model options are defined in `simulink_model/config.py`",
+  )
+  def codegen(models: Tuple[str]):
+      api = Api()
+      for model in models:
+          api.codegen(MODEL_CONFIGS[model])
+              </code></pre>
+          <aside class="notes">How it's made</aside>
+
+        </section>
+
+
+        <section>
+          <pre class="python"><code>
+  # matlablib.py
+  
+  class Model:
+      """
+      Simulink model class.
+      """
+      def rtwbuild(self) -> RtwBuildDir:
+          """
+          Build the model and return the `BuildDirectory`,
+          among other info in the dict. The `model` must exist in the already loaded system.
+          Reference:
+          https://mathworks.com/help/rtw/ref/rtwbuild.html
+          """
+          LOGGER.debug(f"Building model: '{self.model}'")
+
+          self.engine.rtwbuild(self.model)
+
+          rtw_build_dir: RtwBuildDir = self.engine.eval(
+              f"RTW.getBuildDir('{self.model}')"
+          )
+
+          build_directory = rtw_build_dir["BuildDirectory"]
+          LOGGER.debug(f"Build directory: '{build_directory}'")
+
+          codegen_folder = rtw_build_dir["CodeGenFolder"]
+          rtw_build_dir["PackNGoZipFile"] = self.get_packngo_zip(
+              codegen_folder
+          )  # pylint: disable=C0103
+          return rtw_build_dir
+          </code></pre>
+        </section>
         <section>
           <section>
             <h2>Tikz</h2>
@@ -678,10 +922,32 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
           </section>
         </section>
 
-        <section data-background-iframe="https://www.urbandictionary.com/define.php?term=pissing%20contest">
-        </section>
+        <!-- <section data-background-iframe="https://www.urbandictionary.com/define.php?term=pissing%20contest">
+        </section> -->
       </section>
 
+      <section>
+        <section>
+          <h2>PX4</h2>
+          <ul>
+            <li>
+              Organized around uORB, modules
+            </li>
+          </ul>
+          <p>
+          </p>
+        </section>
+
+        <section id="uorbgraph" class="fig-container" data-file="uorbgraph.html" data-state="uorbgraph">
+        </section>
+        <style>
+          /* Makes background interactive by removing transparent background element */
+          .uorbgraph .slide-background-content {
+            display: none;
+          }
+        </style>
+
+      </section>
     </div>
 
   </div>
@@ -723,8 +989,15 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
       ],
 
       keyboard: {
-        '82': () => {
-          toggleControls(getPresentBackgroundVideo())
+        '82': () => { // r
+          replayVid()
+          // toggleControls(getPresentBackgroundVideo())
+        },
+        '34': () => { // page down
+          PAUSED_VID ? playVid() : Reveal.next()
+        },
+        '32': () => { // space
+          Reveal.isOverview() ? Reveal.deactivateOverview() : event.shiftKey ? Reveal.navigatePrev() : PAUSED_VID ? playVid() : Reveal.navigateNext()
         }
       }
 
@@ -733,7 +1006,8 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
     revealInitialized.forEach(fun => fun(Reveal));
 
     function getPresentBackgroundVideo() {
-      return document.querySelector('.stack.present .present video')
+      return Reveal.getCurrentSlide().slideBackgroundElement.querySelector('video')
+      // return document.querySelector('.stack.present .present video')
     }
 
     function getBackgroundVideos() {
@@ -756,19 +1030,54 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
     //   })
     // }
 
+    PAUSED_VID = false;
+
     Reveal.addEventListener('slidechanged', event => {
       const slide = event.currentSlide
-      const time = event.currentSlide.getAttribute('data-video-time')
+      const time = getVidStartTime(slide)
 
       // can't find video element without timeout
       setTimeout(() => {
         if (time) {
-          const video = slide.slideBackgroundElement.querySelector('video');
+          // const video = slide.slideBackgroundElement.querySelector('video');
+          const video = getPresentBackgroundVideo()
+          if (!video) {
+            PAUSED_VID = false;
+            return
+          }
           video.currentTime = time
           video.pause()
+          PAUSED_VID = true;
+
         }
       }, 0)
     })
+
+    function getVidStartTime(slide) {
+      return slide.getAttribute('data-video-time')
+    }
+
+    function replayVid() {
+      const slide = Reveal.getCurrentSlide
+      const video = getPresentBackgroundVideo()
+      if (!video) {
+        return
+      }
+      const time = getVidStartTime(video)
+      video.currentTime = time
+      video.play()
+      PAUSED_VID = false;
+    }
+
+    function playVid() {
+      const video = getPresentBackgroundVideo()
+      if (video) {
+        video.play()
+      } else {
+        Reveal.next()
+      }
+      PAUSED_VID = false
+    }
 
   </script>
 

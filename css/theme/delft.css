@@ -73,7 +73,8 @@ body {
   font-size: 1.3em; }
 
 .reveal h4 {
-  font-size: 1em; }
+  font-size: 1em;
+  color: #222 }
 
 .reveal h1 {
   text-shadow: none; }
@@ -102,6 +103,7 @@ body {
 .reveal ol,
 .reveal dl,
 .reveal ul {
+  line-height: 1.4em;
   display: inline-block;
   text-align: left;
   margin: 0 0 0 1em; }
@@ -161,7 +163,9 @@ body {
   /* box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3) */
 }
 
-.reveal code {
+/** HACK: a <code></code> block disables the autoformatter,
+the not() lets us write indented markdown that doesn't get messed up by the autoformatter */
+.reveal code:not(.no-code-but-p) {
   font-family: monospace;
   text-transform: none; }
 
@@ -169,7 +173,7 @@ body {
   display: block;
   padding: 5px;
   overflow: auto;
-  max-height: 400px;
+  max-height: 600px;
   word-wrap: normal; }
 
 .reveal table {
@@ -291,4 +295,39 @@ ref {
   vertical-align: super;
   top: -.5em;
   position: relative; 
+}
+
+.reveal div .MathJax_Display {
+  font-size: 0.8em;
+}
+
+.reveal section img.no-border {
+  border: none;
+}
+
+.reveal section img.center {
+  display: block;
+  margin: 15px auto;
+}
+
+.reveal section img.no-shadow {
+  box-shadow: none;
+}
+
+.reveal section div.stack-container {
+  position:relative; width:640px; height:480px; margin:0 auto;
+}
+
+.reveal section img.stack {
+  position: absolute;
+}
+
+.reveal section.small {
+  font-size: 0.7em;
+}
+
+.reveal section img.inset {
+  border: none;
+  position: absolute;
+  outline: 4px solid red;
 }
