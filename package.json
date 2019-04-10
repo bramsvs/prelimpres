@@ -44,6 +44,7 @@
     "autolinker": "^3.0.5",
     "citation-js": "^0.4.0-12",
     "highlightjs": "^9.12.0",
+    "pdfjs-dist": "^2.0.943",
     "reveald3": "^1.4.7"
   }
 }

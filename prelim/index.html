@@ -280,6 +280,8 @@ Helps picking a control strategy
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
         <section data-background-iframe="media/Smeur.pdf#zoom=160&page=1">
+          <aside class="notes">We used this as the base line controller. No fault detection method, but adaptive.
+          </aside>
         </section>
 
         <section>
@@ -373,6 +375,16 @@ Helps picking a control strategy
       <section>
 
         <section>
+          <h2>Research gap</h2>
+          <code class="no-code-but-p" data-markdown>
+- Often complex solutions
+- Often questionable assumptions
+- Little real world validation
+                  </code>
+          <aside class="notes">There is some </aside>
+        </section>
+
+        <section>
           <h2>Research goal</h2>
           <q>Find an efficient and reliable fault detection and isolation method that detects actuator faults.</q>
           <p>
@@ -382,13 +394,25 @@ Helps picking a control strategy
         </section>
 
         <section>
-          <h2>Ideal fault detection system</h2>
-          <p data-markdown>
-            - High precision
-            - No false positives
-            - Computationally inexpensive
-            - Low complexity
-          </p>
+          <h2>Efficient</h2>
+          <code class="no-code-but-p" data-markdown>
+Little waste of resources like:
+- Developer time
+- Computational time
+- MAV operator time
+            </code>
+          <aside class="notes">If we want companies to use our methods they need to be cheap/easy to implement,
+            validate, tune.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Reliable</h2>
+          <code class="no-code-but-p" data-markdown>
+- Highly sensitive to actuator failures
+- Low probability of false alarm
+- Low complexity
+          </code>
           <aside class="notes">Detecting is one thing, *not* detecting another. Complex systems are less reliable,
             difficult to implement.
           </aside>
@@ -411,13 +435,17 @@ Helps picking a control strategy
  - Thresholds on residuals or estimated parameters
  - Fuzzy
         </code>
-          <aside class="notes">Rotational rates, accelerometers. There is more to this. Debatable.</aside>
+          <aside class="notes">Rotational rates, accelerometers. There is more to this. Debatable. Ugliest slide.
+          </aside>
         </section>
 
         <section>
           <h2>So,</h2>
-          <p>Lots off tradeoffs</p>
-          <aside class="notes">Lots of tradeoffs means we mean a lot of iterations to get to a efficient and reliable
+          <code class="no-code-but-p" data-markdown>
+- Lots off tradeoffs
+- No analytical solution
+          </code>
+          <aside class="notes">No analytical solution means we need iterations to get to a efficient and reliable
             solution.</aside>
         </section>
 
@@ -427,7 +455,7 @@ Helps picking a control strategy
             Two main steps:
             <ol>
               <li>
-                <i>Dramatically</i> speed up iterative development process
+                <i>Dramatically</i> speed up iterative design process
               </li>
               <li>
                 Iterate on problem
@@ -470,9 +498,11 @@ Helps picking a control strategy
         <section>
           <h2>Automation example</h2>
           <code class="no-code-but-p" data-markdown>
-To go from Simulink model to C++ library to be used in PX4
-</code>
-          <aside class="notes">Silly example, iteration step 2, goal is to</aside>
+Goal is to automate step 2 (implementation),
+
+by going from a Simulink model to C++ library to be used in PX4
+            </code>
+          <aside class="notes">Silly example</aside>
         </section>
 
         <section>
@@ -631,7 +661,8 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
   ),
 }
               </code></pre>
-          <aside class="notes">Configurable</aside>
+          <aside class="notes">Configurable, example data are used for automated testing. Do the tests still run if the
+            model changes?</aside>
         </section>
 
         <section>
@@ -670,26 +701,57 @@ Options:
 $ █
           </code></pre>
 
-          <aside class="notes">(example) codegen help, <br>note model options</aside>
-
+          <aside class="notes">(example) codegen help, <br>note model options <br> This is why Sihao and Matthias enjoy
+            working with me so much.</aside>
         </section>
+
+
+        
         <section>
-          <h2>Some benefits</h2>
-          <p>
-            <ul>
-              <li>
-                Faster progress in advancing flight control
-              </li>
-              <li>
-                More repeatable experiments and results
-              </li>
-              <li>
-                Much faster onboarding of new people
-              </li>
-            </ul>
-          </p>
-          <p data-markdown></p>
-          <aside class="notes">Less errors. Scripts and source control. Keep track of changes. Still lot to do.</aside>
+          <code class="no-code-but-p" data-markdown>
+## Same thinking applies to:
+- Setting up developer environment
+- Setting up OptiTrack, ground control system
+- Much faster onboarding of new people
+              </code>
+          <aside class="notes"></aside>
+        </section>
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## Some benefits
+- Faster progress in advancing flight control
+- More repeatable experiments and results
+- Much faster onboarding of new people
+            </code>
+          <aside class="notes">High level. Less errors. Scripts and source control. Keep track of changes. Still lot to
+            do.</aside>
+        </section>
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## Some lessons learned
+Must consume and build scriptable interfaces:
+- Matlab Python API
+- Click CLI package
+
+Must build support structure around code:
+- Source control
+- Automated testing
+- Readme, documentation
+- Figure out IDE support
+                </code>
+          <aside class="notes"></aside>
+        </section>
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## Next steps
+- Build interface in PX4 with codegenned library
+- Fly, log data
+- Replay flight data in Simulink (big shortcut)
+              </code>
+          <aside class="notes">Replay works especially well for estimation problems (or incremental controllers)</aside>
         </section>
 
       </section>
@@ -697,7 +759,11 @@ $ █
       <section>
 
         <section>
-          <h2>Propeller ejection</h2>
+          <code class="no-code-but-p" data-markdown>
+## Failure case
+Propeller ejection
+* Easier to replicate than broken arm
+          </code>
           <aside class="notes">
           </aside>
         </section>
@@ -729,6 +795,12 @@ $ █
 
       <section>
 
+
+        <section>
+          <h2>Remember solution space?</h2>
+          <img src="media/ratecontrol.png" class="no-border"></img>
+          <aside class="notes">Pressing buttons</aside>
+        </section>
         <!-- <section>
           <h2>Quadrotor model</h2>
           <p data-markdown>`$$
