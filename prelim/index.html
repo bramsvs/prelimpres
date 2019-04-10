@@ -61,47 +61,42 @@
         <p>
           <small>Bram Strack van Schijndel</small>
         </p>
+        <aside class="notes" data-markdown>Good morning</aside>
       </section>
 
 
       <section>
         <section>
           <h2>Why fault tolerant control?</h2>
-          <!-- <ul>
-            <li>
-            </li>
-          </ul>
-          <p>
-
-          </p> -->
+          <aside class="notes" data-markdown>Easy anwser: quadrotors fail all the time.</aside>
         </section>
 
         <section data-background-video="youtube/downloads/3v0GQX5Ptyc.mp4" data-video-time="83">
-          <aside class="notes"></aside>
+          <aside class="notes" data-markdown>Years ago attaching propellers with o-rings was common practice.</aside>
         </section>
 
         <section data-background-video="youtube/downloads/8qMpE-hr2X0.mp4" data-video-time="78">
-          <aside class="notes"></aside>
+          <aside class="notes" data-markdown></aside>
         </section>
 
         <section data-background-video="youtube/downloads/shgeDmgA36I.mp4" data-video-time="44">
-          <aside class="notes"></aside>
+          <aside class="notes" data-markdown></aside>
         </section>
 
         <section data-background-video="youtube/downloads/-rJi_78Ef_E.mp4" data-video-time="1">
-          <aside class="notes"></aside>
+          <aside class="notes" data-markdown>Sad and difficult case because of ground interaction</aside>
         </section>
 
         <section data-background-video="youtube/downloads/D-988dJbSJU.mp4" data-video-time="10">
-          <aside class="notes"></aside>
+          <aside class="notes" data-markdown>Also fail in research setting</aside>
         </section>
 
         <section data-background-video="youtube/downloads/oWj3ivhWr40.mp4" data-video-time="68">
-          <aside class="notes">What's going on here?</aside>
+          <aside class="notes" data-markdown>Funny because it includes my research question.</aside>
         </section>
 
         <section data-background-video="youtube/downloads/kq_Hgg5J-rQ.mp4" data-video-time="716">
-          <aside class="notes">Broken actuator. Nice how gimbal stays steady</aside>
+          <aside class="notes" data-markdown>Broken actuator. Nice how gimbal stays steady</aside>
         </section>
         <!-- <section data-background-iframe="https://youtube.com/embed/3v0GQX5Ptyc?autoplay=1&start=87" data-background>
         </section>
@@ -119,7 +114,7 @@
 
         <!-- <section data-background-iframe="https://www.youtube.com/embed/kq_Hgg5J-rQ?autoplay=1&start=715"
           data-background>
-          <aside class="notes">Dji Inspire 2 losing prop, 3 prop flight</aside>
+          <aside class="notes" data-markdown>Dji Inspire 2 losing prop, 3 prop flight</aside>
         </section> -->
 
       </section>
@@ -163,7 +158,18 @@
             <img src="tikz/FT_base_prob.svg" width="120%" class="fragment fade-in no-border center no-shadow stack"
               data-fragment-index="0"></img>
           </div>
-          <aside class="notes">Top event, basic event, Cause <-> effect <br></aside>
+          <code class="no-code-but-p">
+          <aside class="notes" data-markdown>
+A more systematic way to analyze these faults is by building a fault tree. System failure can also be LOC. Debatable.
+
+It causes links with its effects.
+
+Effects run from bottom top.
+Causes from top to bottom.
+
+Can guestimate probabilities and quantify change of system failure.
+          </aside>
+        </code>
         </section>
 
         <section>
@@ -173,11 +179,15 @@
           </p>
         </section>
 
-
         <section>
           <h2>Fault tree analysis</h2>
           <img src="tikz/FT_ftc.svg" width="120%" class="no-border center no-shadow" data-fragment-index="0"></img>
-          <aside class="notes">Lots of assumptions. In reality it is more dynamic.</aside>
+          <aside class="notes" data-markdown>
+            We want to `block' a simple actuator failure turning into system failure.
+
+            These trees tend to grow very large.
+
+            More simple way to look at it is from concept of graceful degradation.</aside>
         </section>
 
         <section>
@@ -189,15 +199,21 @@ Give up control functions like:
 - Pitch and/or roll (thrust vector)
 - Position
           </code>
-          <aside class="notes">What we're looking for is concept of graceful degradation. <br>A bit more drastic than
-            flight
-            envelope protection because you give up axes. But more optimistic than fail safe. Example:</aside>
+          <aside class="notes" data-markdown>
+            What we're looking is a system that degrades gracefully.
+
+            Making sure that simple failures don't develop into serious castrophe.
+
+            More drastic than just flight envelope protection because you give up control.
+
+            (Many examples)
+          </aside>
         </section>
 
         <section>
           <h2>Example</h2>
           <code class="no-code-but-p" data-markdown>
-One actuator shut down so:
+One actuator shuts down so:
 - Yaw control is given up
 - Flight envelope shrinks
 
@@ -205,9 +221,28 @@ But still limited control over thrust vector
             </code>
         </section>
 
+
         <section data-background-video="youtube/downloads/ScYDOqFGOhk.mp4" data-video-time="37">
-          <aside class="notes">Losing yaw control</aside>
+          <aside class="notes" data-markdown>Losing yaw control</aside>
         </section>
+
+
+        <section>
+          <h2>Graceful degradation</h2>
+          <code class="no-code-but-p" data-markdown>
+Give up control functions like:
+- Yaw
+- Altitude
+- Pitch and/or roll (thrust vector)
+- Position
+            </code>
+          <aside class="notes" data-markdown>
+            This was just an example.
+
+            Sihao is working on more mot
+          </aside>
+        </section>
+
 
         <section>
           <h2>Challenging</h2>
@@ -217,21 +252,25 @@ Because failures:
 - Happen in real-time
 
 This leads complex control system designs:
-<!-- and because fault tolerant control systems: -->
 - Unintended consequences
 - Are difficult to test
-            </code>
-          <aside class="notes">Can happen together. External influence. Highly dimensional and complex. How to prove
-            that it is actually improving safety.
-            Need to be systematic.</aside>
+              </code>
+          <aside class="notes" data-markdown>
+            Challenging because when something bad happens, you quickly need to do system identification to control it,
+            while your flight envelope is shrinking.
+
+            Then, you also have to prove that all that extra complexity is actually improving safety.
+          </aside>
         </section>
+
 
         <section>
           <h2>Why actuator fault detection?</h2>
           <code class="no-code-but-p" data-markdown>
 Helps picking a control strategy
             </code>
-          <aside class="notes">Think controller reconfiguration. At least we think it does. Also helps me getting
+          <aside class="notes" data-markdown>Think controller reconfiguration. At least we think it does. Also helps me
+            getting
             graduated. Luckily some previous work.</aside>
         </section>
 
@@ -240,13 +279,30 @@ Helps picking a control strategy
       <section>
         <section>
           <h2>Previous work</h2>
-          <aside class="notes">Control reconfiguration</aside>
+          Two videos, three papers
+          <aside class="notes" data-markdown></aside>
+        </section>
+
+        <section data-background-video="youtube/downloads/bsHryqnvyYA.mp4" data-video-time="14">
+          <aside class="notes" data-markdown>
+            No fault detection method published
+
+            But they did file a patend
+          </aside>
         </section>
 
         <section>
-          <small data-bib-label="smeurAdaptiveIncrementalNonlinear"></small>
-          <!-- <small data-bib-label="jiangFaultDetectionIdentification2015"></small> -->
+          <p>Mark W. Mueller and Raffaello D'Andrea</p>
+
+          <aside class="notes" data-markdown>
+            Moved on working on other stuff
+          </aside>
         </section>
+
+        <section data-background-video="youtube/downloads/ek0FrCaogcs.mp4" data-video-time="32">
+          <aside class="notes" data-markdown>Another outside video. Pioneered these methods</aside>
+        </section>
+
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
         <section data-background-iframe="media/Peng.pdf#zoom=160&page=1">
@@ -256,31 +312,72 @@ Helps picking a control strategy
           <code class="no-code-but-p" data-markdown>
 ## Key points
 - Pseudoinverse
-- Sensitive to noise
+ - 4 actuators,
+ - Controlling 3 torques, 1 force vector
+- Not handling noise
             </code>
-          <aside class="notes">We used this as the base line controller. To synchronize. 4 actuators x 4 accelerations +
-            4 actuator accelerations.</aside>
+          <aside class="notes" data-markdown>Exploit the fact that the control effectiveness matrix is invertible.
+          </aside>
         </section>
 
-        <section class="small">
+        <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
+        <section data-background-iframe="media/Peng.pdf#zoom=160&page=3">
+        </section>
+
+        <section>
+          <p>$\left[ \begin{array}{c}{T} \\ {\tau_{x}} \\ {\tau_{y}} \\ {\tau_{z}}\end{array}\right]=\left[
+            \begin{array}{cccc}{b} & {b} & {b} & {b} \\ {0} & {-L b} & {0} & {L b} \\ {L b} & {0} & {-L b} & {0} \\
+            {-d}
+            & {d} & {-d} & {d}\end{array}\right] \left[ \begin{array}{c}{\omega_{1}^{2}} \\ {\omega_{2}^{2}} \\
+            {\omega_{3}^{2}} \\ {\omega_{4}^{2}}\end{array}\right]$</p>
+          <code class="no-code-but-p" data-markdown>
+with: <br>
+- thrust $T$, torques $\tau$
+- thrust constant $b$, torque constant $d$, arm length $L$
+- rotor speed $\omega$
+              </code>
+          <aside class="notes" data-markdown>
+            Core of the problem. Divide left and right by the matrix.
+
+            Given you can estimate the forces and moments, and have the rotor speeds, you can calculate the rotor speeds
+            necessary to produce them.
+          </aside>
+        </section>
+
+        <section>
+          Thrust:
           <p>
-            <ul>
-              <li>
-                Pseudoinverse
-              </li>
-            </ul>
+            $\hat{T}=m(g-\hat{w}) /(\mathbf{C} \hat{\phi} \mathbf{C} \hat{\theta})$
           </p>
-          <p class="data-markdown">$b$ thrust coefficient $$\left[ \begin{array}{c}{T} \\ {\tau_{x}} \\ {\tau_{y}} \\
-            {\tau_{z}}\end{array}\right]=\left[ \begin{array}{cccc}{b} & {b} & {b} & {b} \\ {0} & {-L b} & {0} & {L b}
-            \\ {L b} & {0} & {-L b} & {0} \\ {-d} & {d} & {-d} & {d}\end{array}\right] \left[
-            \begin{array}{c}{\omega_{1}^{2}} \\ {\omega_{2}^{2}} \\ {\omega_{3}^{2}} \\
-            {\omega_{4}^{2}}\end{array}\right] :=A_{h} \left[ \begin{array}{c}{\omega_{1}^{2}} \\ {\omega_{2}^{2}} \\
-            {\omega_{3}^{2}} \\ {\omega_{4}^{2}}\end{array}\right]$$</p>
+          Torques:
+          <p>
+            $\begin{aligned} \hat{\tau}_{x} &=I_{x} \hat{p}-\left[\left(I_{y}-I_{z}\right) \hat{q} \hat{r}+I_{r}
+            \hat{q} \hat{\omega}_{r}\right] \\ \hat{\tau}_{y} &=I_{y} \hat{\dot{q}}-\left[\left(I_{z}-I_{x}\right)
+            \hat{r} \hat{p}-I_{r} \hat{p} \hat{\omega}_{r}\right] \\ \hat{\tau}_{z} &=I_{z}
+            \hat{r}-\left[\left(I_{x}-I_{y}\right) \hat{p} \hat{q}+I_{r} \hat{\omega}_{r}-k_{r} \hat{r}\right]
+            \end{aligned}$
+          </p>
+          <code class="no-code-but-p" data-markdown>
+
+                </code>
+          <aside class="notes" data-markdown>
+            Core of the problem. Divide left and right by the matrix.
+
+            Given you can estimate the forces and moments, you can calculate the rotor speeds necessary to produce them.
+          </aside>
+        </section>
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## Next paper
+                </code>
+          <aside class="notes" data-markdown></aside>
         </section>
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
         <section data-background-iframe="media/Smeur.pdf#zoom=160&page=1">
-          <aside class="notes">We used this as the base line controller. No fault detection method, but adaptive.
+          <aside class="notes" data-markdown>We used this as the base line controller. No fault detection method, but
+            adaptive.
           </aside>
         </section>
 
@@ -296,7 +393,8 @@ Helps picking a control strategy
  - Using LMS
  - Takes seconds to converge
           </code>
-          <aside class="notes">We used this as the base line controller. To synchronize. 4 actuators x 4 accelerations +
+          <aside class="notes" data-markdown>We used this as the base line controller. To synchronize. 4 actuators x 4
+            accelerations +
             4 actuator accelerations.</aside>
         </section>
 
@@ -304,24 +402,9 @@ Helps picking a control strategy
         <section data-background-iframe="media/Smeur.pdf#zoom=160&page=14">
         </section>
 
-        <section>
-          <p class="fragment fade-out">Mark W. Mueller and Raffaello D'Andrea</p>
-        </section>
-
-        <section data-background-video="youtube/downloads/bsHryqnvyYA.mp4" data-video-time="14">
-          <aside class="notes">
-            - No fault detection method published
-
-            https://hiperlab.berkeley.edu/publications/
-          </aside>
-        </section>
-
-        <section data-background-video="youtube/downloads/ek0FrCaogcs.mp4" data-video-time="32">
-          <aside class="notes"></aside>
-        </section>
         <!-- 
         <section data-background-iframe="https://youtube.com/embed/bsHryqnvyYA?autoplay=1&start=14" data-background>
-          <aside class="notes">
+          <aside class="notes" data-markdown>
             - No fault detection method published
 
             https://hiperlab.berkeley.edu/publications/
@@ -329,8 +412,39 @@ Helps picking a control strategy
         </section>
 
         <section data-background-iframe="https://youtube.com/embed/ek0FrCaogcs?autoplay=1&start=32" data-background>
-          <aside class="notes"></aside>
+          <aside class="notes" data-markdown></aside>
         </section> -->
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## Last paper
+                  </code>
+          <aside class="notes" data-markdown></aside>
+        </section>
+
+        <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
+        <section data-background-iframe="media/Zhong.pdf#zoom=160&page=1">
+        </section>
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## Key points
+- Handles actuator failures *and* disturbances 
+- Very recent, state of art
+- Linearized around hover
+- Very complex..
+                </code>
+          <aside class="notes" data-markdown>Very complex, as shown.</aside>
+        </section>
+
+        <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
+        <section data-background-iframe="media/Zhong.pdf#zoom=160&page=7">
+        </section>
+
+        <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
+        <section data-background-iframe="media/Zhong.pdf#zoom=160&page=8">
+        </section>
+
 
       </section>
 
@@ -381,7 +495,7 @@ Helps picking a control strategy
 - Often questionable assumptions
 - Little real world validation
                   </code>
-          <aside class="notes">There is some </aside>
+          <aside class="notes" data-markdown>There is some </aside>
         </section>
 
         <section>
@@ -389,7 +503,8 @@ Helps picking a control strategy
           <q>Find an efficient and reliable fault detection and isolation method that detects actuator faults.</q>
           <p>
           </p>
-          <aside class="notes">Not very specific yet. Ultimately an optimization problem. What are we optimizing for?
+          <aside class="notes" data-markdown>Not very specific yet. Ultimately an optimization problem. What are we
+            optimizing for?
           </aside>
         </section>
 
@@ -401,8 +516,9 @@ Little waste of resources like:
 - Computational time
 - MAV operator time
             </code>
-          <aside class="notes">If we want companies to use our methods they need to be cheap/easy to implement,
-            validate, tune.
+          <aside class="notes" data-markdown>If we want companies to use our methods they need to be cheap/easy to
+            implement,
+            validate, tune. Low complexity, computationally efficient.
           </aside>
         </section>
 
@@ -413,8 +529,9 @@ Little waste of resources like:
 - Low probability of false alarm
 - Low complexity
           </code>
-          <aside class="notes">Detecting is one thing, *not* detecting another. Complex systems are less reliable,
-            difficult to implement.
+          <aside class="notes" data-markdown>First point is obvious. Second one harder: detecting is one thing, *not*
+            detecting
+            another. How do you prove that something does not happen? For example: when taking off, doing manoeuvres.
           </aside>
         </section>
 
@@ -435,18 +552,28 @@ Little waste of resources like:
  - Thresholds on residuals or estimated parameters
  - Fuzzy
         </code>
-          <aside class="notes">Rotational rates, accelerometers. There is more to this. Debatable. Ugliest slide.
+          <aside class="notes" data-markdown>Found in literature. This is ugliest slide.
+
+            "Problem space" is also large because all possible modes.
           </aside>
         </section>
 
         <section>
-          <h2>So,</h2>
           <code class="no-code-but-p" data-markdown>
-- Lots off tradeoffs
+## So,
 - No analytical solution
+- Lots off tradeoffs
           </code>
-          <aside class="notes">No analytical solution means we need iterations to get to a efficient and reliable
-            solution.</aside>
+          <aside class="notes" data-markdown>No analytical solution means we need iterations to get to a efficient and
+            reliable solution.</aside>
+        </section>
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## Problem
+Iterations are slow
+            </code>
+          <aside class="notes" data-markdown>..because it takes months to implement something in Paparazzi</aside>
         </section>
 
         <section>
@@ -462,7 +589,8 @@ Little waste of resources like:
               </li>
             </ol>
           </p>
-          <aside class="notes">Coming up with a good solutions requires a iterative approach, not sequential.</aside>
+          <aside class="notes" data-markdown>Coming up with a good solutions requires a iterative approach, not
+            sequential.</aside>
         </section>
       </section>
 
@@ -488,9 +616,11 @@ Little waste of resources like:
               </li>
             </ol>
           </p>
-          <aside class="notes">Let's look at what iteration looks like. Debatable.<br>
-            Assuming we have a model (we have)<br>
-            System can be for example a controller or observer<br>
+          <aside class="notes" data-markdown>Let's look at what iteration looks like. Debatable.\n
+            Assuming we have a model (we have)
+
+            System can be for example a controller or observer
+
             1) verification 5) validation
           </aside>
         </section>
@@ -502,24 +632,26 @@ Goal is to automate step 2 (implementation),
 
 by going from a Simulink model to C++ library to be used in PX4
             </code>
-          <aside class="notes">Silly example</aside>
+          <aside class="notes" data-markdown>This process cut implementation time from months/weeks range to
+            days/minutes. Let's go through example, starts a bit silly.</aside>
         </section>
 
         <section>
           <img src="media/ratecontrol.png" class="no-border"></img>
-          <aside class="notes">Pressing buttons</aside>
+          <aside class="notes" data-markdown>Start with a model, don't look at the model.</aside>
         </section>
 
         <section>
           <img src="media/coder_options.png" class="no-border"></img>
-          <aside class="notes"></aside>
+          <aside class="notes" data-markdown>Need to set some </aside>
         </section>
 
         <section>
           <img src="media/ratecontrol.png" class="no-border"></img>
           <img src="media/coder_button.png" class="inset fragment" style="left: 420px; top: 20px"></img>
-          <aside class="notes">Couple of issues 1) I can only communicate this process via word of mouth or by writing a
-            manual. 2) </aside>
+          <aside class="notes" data-markdown>Issue, is: I can only communicate this process via word of mouth or by
+            writing a
+            manual. Process will get lost. Students get stuck writing C in Paparazzi</aside>
         </section>
 
         <section>
@@ -575,9 +707,23 @@ function [success] = copyToPx4Codegen(file, px4CodegenDir, verbose)
     if verbose, disp(message), end
 end
               </code></pre>
-          <aside class="notes">Better. Script, can send this around via email, put in code repository. But: <br> Can't
-            work with multiple people on it. <br> End up with copies. <br> Untested. <br> Doesn't fit well in rest of
+          <aside class="notes" data-markdown>Better. Script, can send this around via email, put in code repository.
+            But:
+            Can't
+            work with multiple people on it.
+            End up with copies.
+            Untested.
+            Doesn't fit well in rest of
             pipeline.</aside>
+        </section>
+
+        <section>
+          <!-- <h2>Python</h2> -->
+          <img src="media/mostlovedlangs.png" class="no-border center" height="500px"></img>
+          <small><a
+              href="https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-languages">Stackoverflow
+              2019 Developer Survey</a></small>
+          <aside class="notes" data-markdown></aside>
         </section>
 
         <section>
@@ -597,7 +743,7 @@ def test_codegen(project):
     model.engine.quit()
           </code></pre>
 
-          <aside class="notes">matlablib.py is Python wrapper around a Simulink model, Pytest</aside>
+          <aside class="notes" data-markdown>matlablib.py is Python wrapper around a Simulink model, Pytest</aside>
 
         </section>
 
@@ -661,7 +807,8 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
   ),
 }
               </code></pre>
-          <aside class="notes">Configurable, example data are used for automated testing. Do the tests still run if the
+          <aside class="notes" data-markdown>Configurable, example data are used for automated testing. Do the tests
+            still run if the
             model changes?</aside>
         </section>
 
@@ -683,7 +830,8 @@ Commands:
   toptest
 $ █
               </code></pre>
-          <aside class="notes">Solution that scales to multiple use cases and is friendly to new people</aside>
+          <aside class="notes" data-markdown>Solution that scales to multiple use cases and is friendly to new people
+          </aside>
         </section>
 
         <section>
@@ -701,20 +849,23 @@ Options:
 $ █
           </code></pre>
 
-          <aside class="notes">(example) codegen help, <br>note model options <br> This is why Sihao and Matthias enjoy
+          <aside class="notes" data-markdown>(example) codegen help,
+            note model options
+            This is why Sihao and Matthias enjoy
             working with me so much.</aside>
         </section>
 
-
-        
         <section>
           <code class="no-code-but-p" data-markdown>
-## Same thinking applies to:
-- Setting up developer environment
-- Setting up OptiTrack, ground control system
-- Much faster onboarding of new people
-              </code>
-          <aside class="notes"></aside>
+## Recap
+Went from:
+- Clicking buttons
+- To a script
+- To functions/classes
+- To adding configuration file
+- To building command line interace
+                </code>
+          <aside class="notes" data-markdown></aside>
         </section>
 
         <section>
@@ -724,25 +875,46 @@ $ █
 - More repeatable experiments and results
 - Much faster onboarding of new people
             </code>
-          <aside class="notes">High level. Less errors. Scripts and source control. Keep track of changes. Still lot to
-            do.</aside>
+          <aside class="notes" data-markdown>Again, went from months/weeks to days/minutes.</aside>
         </section>
 
         <section>
           <code class="no-code-but-p" data-markdown>
-## Some lessons learned
+## Lessons learned
 Must consume and build scriptable interfaces:
-- Matlab Python API
-- Click CLI package
+- Consume Matlab Python API
+- Build CLI with Python Click package
+                </code>
+          <aside class="notes" data-markdown></aside>
+        </section>
 
-Must build support structure around code:
+
+        <section>
+          <code class="no-code-but-p" data-markdown>
+## More lessons learned
+
+Only worth the effort if more people benefit and contribute back.
+
+Need support structure to facilitate this sharing and creation:
 - Source control
 - Automated testing
 - Readme, documentation
-- Figure out IDE support
-                </code>
-          <aside class="notes"></aside>
+- Good IDE support
+                  </code>
+          <aside class="notes" data-markdown>Organisational wise. Applies to many software project, open source
+            projects. Must make
+            the barrier to entry very low.</aside>
         </section>
+
+        <!-- <section>
+          <code class="no-code-but-p" data-markdown>
+## Same thinking applies to:
+- Setting up developer environment
+- Setting up OptiTrack, ground control system
+- More
+                </code>
+          <aside class="notes" data-markdown>Think about retrieving log data </aside>
+        </section> -->
 
         <section>
           <code class="no-code-but-p" data-markdown>
@@ -751,12 +923,27 @@ Must build support structure around code:
 - Fly, log data
 - Replay flight data in Simulink (big shortcut)
               </code>
-          <aside class="notes">Replay works especially well for estimation problems (or incremental controllers)</aside>
+          <aside class="notes" data-markdown>Now we have our codegenned library.
+            We can do some tricks.</aside>
         </section>
 
       </section>
 
       <section>
+
+        <section>
+
+          <img src="diagrams/process-prelim.svg" width="60%" class="no-border center no-shadow"></img>
+          <aside class="notes" data-markdown>
+            This is what the codegen and replay process looks like.
+
+            Fat arrow is the codegen.
+
+            Have the fault detection in an on- and offline environment.
+
+            With Simulink on top, Bebop 2 running PX4 at the bottom.
+          </aside>
+        </section>
 
         <section>
           <code class="no-code-but-p" data-markdown>
@@ -764,30 +951,27 @@ Must build support structure around code:
 Propeller ejection
 * Easier to replicate than broken arm
           </code>
-          <aside class="notes">
+          <aside class="notes" data-markdown>Have to pick a failure case.
+            There are many options possible.
+            Combinations of
+            actuators and sensors can fail.
           </aside>
         </section>
 
         <section>
           <img height="600px" src="media/carved_out_prop.jpg" style="margin: 15px auto; display: block">
-          <aside class="notes">
+          <aside class="notes" data-markdown>
           </aside>
         </section>
 
         <section data-background-video="media/prop_eject_recover.mp4" data-video-time="0">
-          <aside class="notes">
-          </aside>
-        </section>
-
-        <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
-          <aside class="notes">
-            Unmodeled dynamics example
+          <aside class="notes" data-markdown>
           </aside>
         </section>
 
         <section data-state="prop-eject" data-background-video="media/prop_eject.mp4" data-video-time="1">
           <p id="propEjectTime" style="color: white; text-align: right; padding-right: 150px">0 ms<br>0 samples</p>
-          <aside class="notes">
+          <aside class="notes" data-markdown>
             Look at front right propeller (most left one for us)
           </aside>
         </section>
@@ -795,35 +979,22 @@ Propeller ejection
 
       <section>
 
-
         <section>
           <h2>Remember solution space?</h2>
           <img src="media/ratecontrol.png" class="no-border"></img>
-          <aside class="notes">Pressing buttons</aside>
+          <aside class="notes" data-markdown></aside>
         </section>
-        <!-- <section>
-          <h2>Quadrotor model</h2>
-          <p data-markdown>`$$
-            \begin{bmatrix}
-            \dot{p} \\
-            \dot{q} \\
-            a_z \\
-            \end{bmatrix}
-            =
-            I^{-1} \cdot{c_T}
-            \begin{bmatrix}
-            b & -b & -b & b \\
-            h & h & -h & -h \\ \hdashline
-            c_M.. \\
-            \end{bmatrix}
-            \begin{bmatrix}
-            \omega_1^2 \\
-            \omega_2^2 \\
-            \omega_3^2 \\
-            \omega_4^2 \\
-            \end{bmatrix}
-            $$`</p>
-        </section> -->
+
+        <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
+          <aside class="notes" data-markdown>
+            Unmodeled dynamics example
+          </aside>
+        </section>
+
+
+
+        <!-- /home/bramsvs/src/fddpaper/diagrams/system.pdf -->
+
 
         <section>
           <h2>Control effectiveness model</h2>
@@ -932,7 +1103,7 @@ Propeller ejection
               4) <a href="https://wiki.paparazziuav.org/wiki/Category:Autopilots">Elle0</a>
             </small>
           </p>
-          <aside class="notes">Bridge: What are the limitations?.</aside>
+          <aside class="notes" data-markdown>Bridge: What are the limitations?.</aside>
         </section>
 
         <section>
@@ -948,11 +1119,11 @@ Propeller ejection
         </section>
 
         <section data-background-iframe="https://www.youtube.com/embed/-JVs2XGzLT4?autoplay=1&start=17" data-background>
-          <aside class="notes">Kid crash</aside>
+          <aside class="notes" data-markdown>Kid crash</aside>
         </section>
 
         <section data-background-iframe="https://www.youtube.com/embed/2nDEEw3VjNU?autoplay=1" data-background>
-          <aside class="notes">Dji Inspire 2 losing prop, 3 prop flight</aside>
+          <aside class="notes" data-markdown>Dji Inspire 2 losing prop, 3 prop flight</aside>
         </section>
 
         <section>
@@ -976,14 +1147,6 @@ Propeller ejection
           </p>
         </section>
 
-        <section>
-          <!-- <h2>Python</h2> -->
-          <img src="media/mostlovedlangs.png" class="no-border center" height="500px"></img>
-          <small><a
-              href="https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-languages">Stackoverflow
-              2019 Developer Survey</a></small>
-          <aside class="notes"></aside>
-        </section>
 
         <section>
           <pre class="python"><code>
@@ -1009,7 +1172,7 @@ Propeller ejection
       for model in models:
           api.codegen(MODEL_CONFIGS[model])
               </code></pre>
-          <aside class="notes">How it's made</aside>
+          <aside class="notes" data-markdown>How it's made</aside>
 
         </section>
 
