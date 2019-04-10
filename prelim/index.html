@@ -44,6 +44,11 @@
 		<![endif]-->
 </head>
 
+<!-- 
+ 
+
+ -->
+
 <body>
 
   <div class="reveal">
@@ -83,7 +88,6 @@
           <aside class="notes"></aside>
         </section>
 
-
         <section data-background-video="youtube/downloads/-rJi_78Ef_E.mp4" data-video-time="1">
           <aside class="notes"></aside>
         </section>
@@ -95,7 +99,6 @@
         <section data-background-video="youtube/downloads/oWj3ivhWr40.mp4" data-video-time="68">
           <aside class="notes">What's going on here?</aside>
         </section>
-
 
         <section data-background-video="youtube/downloads/kq_Hgg5J-rQ.mp4" data-video-time="716">
           <aside class="notes">Broken actuator. Nice how gimbal stays steady</aside>
@@ -160,58 +163,84 @@
             <img src="tikz/FT_base_prob.svg" width="120%" class="fragment fade-in no-border center no-shadow stack"
               data-fragment-index="0"></img>
           </div>
-          <aside class="notes">Cause <-> effect <br> asdf</aside>
+          <aside class="notes">Top event, basic event, Cause <-> effect <br></aside>
         </section>
 
         <section>
-
-          <h2>Fault tree analysis</h2>
-          <!-- <q>Find a fault detection and isolation method that detects actuator faults, enabling fault tolerant
-              control.</q> -->
-
-          <aside class="notes"></aside>
-        </section>
-        <section>
-        </section>
-
-        <section>
-          <div class="fig-container" data-file="faulttree.html"></div>
-        </section>
-
-        <section>
-          <h3>Graceful degradation</h3>
+          <h2>Adds up</h2>
           <p>
-            <ul>
-              <li>
-                More optimistic than fail safe
-              </li>
-              <li>
-                Gracefully give up functions like:
-              </li>
-              <ul>
-                <li>
-                  Yaw control
-                </li>
-                <li>
-                  Altitude control
-                </li>
-                <li>
-                  Pitch and/or roll control
-                </li>
-                <li>
-                  Position control
-                </li>
-              </ul>
-            </ul>
+            $P(A \cup B)=P(A)+P(B)$
           </p>
-          <aside class="notes">What we're looking for is graceful degradation</aside>
         </section>
-      </section>
 
+
+        <section>
+          <h2>Fault tree analysis</h2>
+          <img src="tikz/FT_ftc.svg" width="120%" class="no-border center no-shadow" data-fragment-index="0"></img>
+          <aside class="notes">Lots of assumptions. In reality it is more dynamic.</aside>
+        </section>
+
+        <section>
+          <h2>Graceful degradation</h2>
+          <code class="no-code-but-p" data-markdown>
+Give up control functions like:
+- Yaw
+- Altitude
+- Pitch and/or roll (thrust vector)
+- Position
+          </code>
+          <aside class="notes">What we're looking for is concept of graceful degradation. <br>A bit more drastic than
+            flight
+            envelope protection because you give up axes. But more optimistic than fail safe. Example:</aside>
+        </section>
+
+        <section>
+          <h2>Example</h2>
+          <code class="no-code-but-p" data-markdown>
+One actuator shut down so:
+- Yaw control is given up
+- Flight envelope shrinks
+
+But still limited control over thrust vector
+            </code>
+        </section>
+
+        <section data-background-video="youtube/downloads/ScYDOqFGOhk.mp4" data-video-time="37">
+          <aside class="notes">Losing yaw control</aside>
+        </section>
+
+        <section>
+          <h2>Challenging</h2>
+          <code class="no-code-but-p" data-markdown>
+Because failures:
+- Come in many different 'modes'
+- Happen in real-time
+
+This leads complex control system designs:
+<!-- and because fault tolerant control systems: -->
+- Unintended consequences
+- Are difficult to test
+            </code>
+          <aside class="notes">Can happen together. External influence. Highly dimensional and complex. How to prove
+            that it is actually improving safety.
+            Need to be systematic.</aside>
+        </section>
+
+        <section>
+          <h2>Why actuator fault detection?</h2>
+          <code class="no-code-but-p" data-markdown>
+Helps picking a control strategy
+            </code>
+          <aside class="notes">Think controller reconfiguration. At least we think it does. Also helps me getting
+            graduated. Luckily some previous work.</aside>
+        </section>
+
+      </section>
 
       <section>
         <section>
           <h2>Previous work</h2>
+          <aside class="notes">Control reconfiguration</aside>
         </section>
 
         <section>
@@ -348,12 +377,26 @@
           <q>Find an efficient and reliable fault detection and isolation method that detects actuator faults.</q>
           <p>
           </p>
-          <aside class="notes">Not very specific yet. How to find such thing? Ultimately an optimization problem.
+          <aside class="notes">Not very specific yet. Ultimately an optimization problem. What are we optimizing for?
+          </aside>
+        </section>
+
+        <section>
+          <h2>Ideal fault detection system</h2>
+          <p data-markdown>
+            - High precision
+            - No false positives
+            - Computationally inexpensive
+            - Low complexity
+          </p>
+          <aside class="notes">Detecting is one thing, *not* detecting another. Complex systems are less reliable,
+            difficult to implement.
           </aside>
         </section>
 
         <section>
           <h2>Solution space</h2>
+          <!-- TODO: check with Sihao -->
           <code class="no-code-but-p" data-markdown>
 - Input signals?
  - Direct, filtered and/or debiased IMU measurements
@@ -361,15 +404,22 @@
  - Fused estimator outputs
 - Observers?
  - Thau, Kalman, Luenberger
- - Direct inverse
+ - Direct pseudoinverse
 - Estimators?
- - LMS, RLS, Kalman, moving window, forgetting factor
-- Detection & isolation?
+ - LMS, RLS, Kalman, ML, moving window, forgetting factor
+- Detection & isolation logic?
  - Thresholds on residuals or estimated parameters
+ - Fuzzy
         </code>
           <aside class="notes">Rotational rates, accelerometers. There is more to this. Debatable.</aside>
         </section>
 
+        <section>
+          <h2>So,</h2>
+          <p>Lots off tradeoffs</p>
+          <aside class="notes">Lots of tradeoffs means we mean a lot of iterations to get to a efficient and reliable
+            solution.</aside>
+        </section>
 
         <section>
           <h2>Research strategy</h2>
@@ -422,7 +472,7 @@
           <code class="no-code-but-p" data-markdown>
 To go from Simulink model to C++ library to be used in PX4
 </code>
-          <aside class="notes">Silly example, iteration step 2</aside>
+          <aside class="notes">Silly example, iteration step 2, goal is to</aside>
         </section>
 
         <section>
@@ -495,14 +545,9 @@ function [success] = copyToPx4Codegen(file, px4CodegenDir, verbose)
     if verbose, disp(message), end
 end
               </code></pre>
-          <aside class="notes">Better. Script, can send this around via email.</aside>
-        </section>
-
-        <section>
-          <!-- <h2>Python</h2> -->
-          <img src="media/mostlovedlangs.png" class="no-border center" height="500px"></img>
-          <small><a href="https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-languages">Stackoverflow 2019 Developer Survey</a></small>
-          <aside class="notes"></aside>
+          <aside class="notes">Better. Script, can send this around via email, put in code repository. But: <br> Can't
+            work with multiple people on it. <br> End up with copies. <br> Untested. <br> Doesn't fit well in rest of
+            pipeline.</aside>
         </section>
 
         <section>
@@ -628,27 +673,25 @@ $ █
           <aside class="notes">(example) codegen help, <br>note model options</aside>
 
         </section>
-      </section>
+        <section>
+          <h2>Some benefits</h2>
+          <p>
+            <ul>
+              <li>
+                Faster progress in advancing flight control
+              </li>
+              <li>
+                More repeatable experiments and results
+              </li>
+              <li>
+                Much faster onboarding of new people
+              </li>
+            </ul>
+          </p>
+          <p data-markdown></p>
+          <aside class="notes">Less errors. Scripts and source control. Keep track of changes. Still lot to do.</aside>
+        </section>
 
-
-      <section>
-        <h2>Some benefits</h2>
-        <p>
-          <ul>
-            <li>
-              Faster progress in advancing flight control
-            </li>
-            <li>
-              More repeatable experiments and results
-            </li>
-            <li>
-              Much faster onboarding of new people
-            </li>
-          </ul>
-        </p>
-        <p data-markdown></p>
-        <aside class="notes">Less errors. Scripts and source control. Keep track of changes. Still lot to do.</aside>
-      </section>
       </section>
 
       <section>
@@ -665,13 +708,6 @@ $ █
           </aside>
         </section>
 
-
-        <section data-background-video="media/prop_eject.mp4" data-video-time="1">
-          <aside class="notes">
-            Look at front right propeller (most left one for us)
-          </aside>
-        </section>
-
         <section data-background-video="media/prop_eject_recover.mp4" data-video-time="0">
           <aside class="notes">
           </aside>
@@ -680,6 +716,13 @@ $ █
         <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
           <aside class="notes">
             Unmodeled dynamics example
+          </aside>
+        </section>
+
+        <section data-state="prop-eject" data-background-video="media/prop_eject.mp4" data-video-time="1">
+          <p id="propEjectTime" style="color: white; text-align: right; padding-right: 150px">0 ms<br>0 samples</p>
+          <aside class="notes">
+            Look at front right propeller (most left one for us)
           </aside>
         </section>
       </section>
@@ -733,9 +776,22 @@ $ █
             $$`</p>
         </section>
         <section>
-          <ul>
-            <li>asdf</li>
-          </ul>
+          <h2>Binary classification problem</h2>
+          <code class="no-code-but-p">
+            Given variance $ \sigma^2_\beta $, we can compute the probability $P(\beta < \beta_\text{thres})$
+            <br><br>
+            $$
+            {i_\text{act}}_\text{fail} =
+            \begin{cases}
+            1 & \text{if}\ P(\beta < \beta_\text{thres}) > P_\text{thres}\\
+            0 & \text{if}\ P(\beta > \beta_\text{thres}) < P_\text{thres}\\
+            \end{cases}
+            $$
+            <br>
+            <small>
+              with $\beta_\text{thres} = 0.25$, $P_\text{thres} = 0.9$
+            </small>
+          </code>
         </section>
       </section>
 
@@ -848,6 +904,14 @@ $ █
           </p>
         </section>
 
+        <section>
+          <!-- <h2>Python</h2> -->
+          <img src="media/mostlovedlangs.png" class="no-border center" height="500px"></img>
+          <small><a
+              href="https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-languages">Stackoverflow
+              2019 Developer Survey</a></small>
+          <aside class="notes"></aside>
+        </section>
 
         <section>
           <pre class="python"><code>
@@ -1004,6 +1068,21 @@ $ █
     });
 
     revealInitialized.forEach(fun => fun(Reveal));
+
+    Reveal.addEventListener('prop-eject', () => {
+      setTimeout(() => {
+        const video = getPresentBackgroundVideo()
+        video.addEventListener('timeupdate', (e) => setPropEjectTime(e.target.currentTime))
+        video.setAttribute("controls", "controls")
+      })
+    })
+
+    function setPropEjectTime(currentTime) {
+      const slowMoMs = Math.max(Math.round((currentTime - 1.5) / 32 * 1000), 0)
+      const samples = Math.round(slowMoMs / 2)
+      const displayString = `${slowMoMs} ms<br>${samples} samples`
+      propEjectTime.innerHTML = displayString
+    }
 
     function getPresentBackgroundVideo() {
       return Reveal.getCurrentSlide().slideBackgroundElement.querySelector('video')

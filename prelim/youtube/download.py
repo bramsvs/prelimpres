@@ -12,7 +12,8 @@ VIDS = [
     # "kq_Hgg5J-rQ", # fail compilation (big)
     # "bsHryqnvyYA", # ETH indoors
     # "ek0FrCaogcs", # ETH outdoors
-    "2nDEEw3VjNU", # DJI Inspire 2
+    # "2nDEEw3VjNU", # DJI Inspire 2
+    "ScYDOqFGOhk", # Delft Bebop FTC
 ]
 
 
