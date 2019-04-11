@@ -68,15 +68,18 @@
       <section>
         <section>
           <h2>Why fault tolerant control?</h2>
-          <aside class="notes" data-markdown>Easy anwser: quadrotors fail all the time.</aside>
+          <aside class="notes" data-markdown>There are easy and complex answers, easy answer: quadrotors fail all the
+            time.
+
+            Lets look at some examples of failing quadrotors</aside>
         </section>
 
         <section data-background-video="youtube/downloads/3v0GQX5Ptyc.mp4" data-video-time="83">
-          <aside class="notes" data-markdown>Years ago attaching propellers with o-rings was common practice.</aside>
+          <aside class="notes" data-markdown>These propellers are attached with o-rings, not smart.</aside>
         </section>
 
         <section data-background-video="youtube/downloads/8qMpE-hr2X0.mp4" data-video-time="78">
-          <aside class="notes" data-markdown></aside>
+          <aside class="notes" data-markdown>Quadrotor failures in a guarden.</aside>
         </section>
 
         <section data-background-video="youtube/downloads/shgeDmgA36I.mp4" data-video-time="44">
@@ -84,19 +87,19 @@
         </section>
 
         <section data-background-video="youtube/downloads/-rJi_78Ef_E.mp4" data-video-time="1">
-          <aside class="notes" data-markdown>Sad and difficult case because of ground interaction</aside>
+          <aside class="notes" data-markdown>This is a sad and difficult case because of ground interaction</aside>
         </section>
 
         <section data-background-video="youtube/downloads/D-988dJbSJU.mp4" data-video-time="10">
-          <aside class="notes" data-markdown>Also fail in research setting</aside>
+          <aside class="notes" data-markdown>They also fail in research settings</aside>
         </section>
 
         <section data-background-video="youtube/downloads/oWj3ivhWr40.mp4" data-video-time="68">
-          <aside class="notes" data-markdown>Funny because it includes my research question.</aside>
+          <aside class="notes" data-markdown>This one is funny because it includes my research question.</aside>
         </section>
 
         <section data-background-video="youtube/downloads/kq_Hgg5J-rQ.mp4" data-video-time="716">
-          <aside class="notes" data-markdown>Broken actuator. Nice how gimbal stays steady</aside>
+          <aside class="notes" data-markdown>Please look at how nice the camera stays is kept steady.</aside>
         </section>
         <!-- <section data-background-iframe="https://youtube.com/embed/3v0GQX5Ptyc?autoplay=1&start=87" data-background>
         </section>
@@ -160,14 +163,8 @@
           </div>
           <code class="no-code-but-p">
           <aside class="notes" data-markdown>
-A more systematic way to analyze these faults is by building a fault tree. System failure can also be LOC. Debatable.
-
-It causes links with its effects.
-
-Effects run from bottom top.
-Causes from top to bottom.
-
-Can guestimate probabilities and quantify change of system failure.
+Putting these failures in a fault tree gives us something like this ... there are many ways to structure this, this is just one way ...
+System failure can for example also be loss of control or control system failure ... now we have this fault tree we can guestimate probabilities and quantify probability of system failure ... those gates are or gates so this adds up.
           </aside>
         </code>
         </section>
@@ -183,11 +180,13 @@ Can guestimate probabilities and quantify change of system failure.
           <h2>Fault tree analysis</h2>
           <img src="tikz/FT_ftc.svg" width="120%" class="no-border center no-shadow" data-fragment-index="0"></img>
           <aside class="notes" data-markdown>
-            We want to `block' a simple actuator failure turning into system failure.
+            We want to prevent a simple actuator failure turning into system failure ... we do this by adding a fault
+            tolerant controller
 
-            These trees tend to grow very large.
+            This adds an AND gate.
 
-            More simple way to look at it is from concept of graceful degradation.</aside>
+            This is just one way of looking at this ... another way to look at this problem is from the concept of
+            graceful degradation.</aside>
         </section>
 
         <section>
@@ -200,13 +199,11 @@ Give up control functions like:
 - Position
           </code>
           <aside class="notes" data-markdown>
-            What we're looking is a system that degrades gracefully.
+            What we're looking is a system that degrades gracefully, from a functional perspective.
 
-            Making sure that simple failures don't develop into serious castrophe.
+            Which, among other thing, is about making sure that simple failures don't develop into more serious mishaps.
 
-            More drastic than just flight envelope protection because you give up control.
-
-            (Many examples)
+            Lets look at an example, you may already have seen.
           </aside>
         </section>
 
@@ -223,7 +220,7 @@ But still limited control over thrust vector
 
 
         <section data-background-video="youtube/downloads/ScYDOqFGOhk.mp4" data-video-time="37">
-          <aside class="notes" data-markdown>Losing yaw control</aside>
+          <aside class="notes" data-markdown>It is about saving what we can.</aside>
         </section>
 
 
@@ -235,11 +232,13 @@ Give up control functions like:
 - Altitude
 - Pitch and/or roll (thrust vector)
 - Position
+
+While saving what we can
             </code>
           <aside class="notes" data-markdown>
-            This was just an example.
+            So this was just one example.
 
-            Sihao is working on more mot
+            Sihao is trying to control quadrotors which have even more damage.
           </aside>
         </section>
 
@@ -248,7 +247,7 @@ Give up control functions like:
           <h2>Challenging</h2>
           <code class="no-code-but-p" data-markdown>
 Because failures:
-- Come in many different 'modes'
+- Come in many different modes
 - Happen in real-time
 
 This leads complex control system designs:
@@ -256,22 +255,24 @@ This leads complex control system designs:
 - Are difficult to test
               </code>
           <aside class="notes" data-markdown>
-            Challenging because when something bad happens, you quickly need to do system identification to control it,
-            while your flight envelope is shrinking.
+            Challenging because when something bad happens, your system dynamics change ...
+            so you quickly need to do some fast system identification to control it.
+
+            And at the same time your flight envelope is shrinking.
 
             Then, you also have to prove that all that extra complexity is actually improving safety.
           </aside>
         </section>
-
 
         <section>
           <h2>Why actuator fault detection?</h2>
           <code class="no-code-but-p" data-markdown>
 Helps picking a control strategy
             </code>
-          <aside class="notes" data-markdown>Think controller reconfiguration. At least we think it does. Also helps me
-            getting
-            graduated. Luckily some previous work.</aside>
+          <aside class="notes" data-markdown>
+            .. at least we hope it does.
+
+            There is luckily some previous work. Lets look at that.</aside>
         </section>
 
       </section>
@@ -285,9 +286,13 @@ Helps picking a control strategy
 
         <section data-background-video="youtube/downloads/bsHryqnvyYA.mp4" data-video-time="14">
           <aside class="notes" data-markdown>
-            No fault detection method published
+            This is one of the more famous videos. Already done in 2013.
 
-            But they did file a patend
+            Unfortunately they didn't publish a fault detection method. Probably used some threshold on attitude and
+            called
+            it a day.
+
+            But they did file a patend on the control method.
           </aside>
         </section>
 
@@ -295,17 +300,18 @@ Helps picking a control strategy
           <p>Mark W. Mueller and Raffaello D'Andrea</p>
 
           <aside class="notes" data-markdown>
-            Moved on working on other stuff
+            And the researchers building this moved on working on other projects.
           </aside>
         </section>
 
         <section data-background-video="youtube/downloads/ek0FrCaogcs.mp4" data-video-time="32">
-          <aside class="notes" data-markdown>Another outside video. Pioneered these methods</aside>
+          <aside class="notes" data-markdown>This is the same group but outside, a couple of months later.</aside>
         </section>
 
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
         <section data-background-iframe="media/Peng.pdf#zoom=160&page=1">
+          <aside class="notes" data-markdown>Lets look at the first paper, this is 2015.</aside>
         </section>
 
         <section>
@@ -313,15 +319,20 @@ Helps picking a control strategy
 ## Key points
 - Pseudoinverse
  - 4 actuators,
- - Controlling 3 torques, 1 force vector
+ - controlling 4 degrees of freedom
 - Not handling noise
+- Simulation study
             </code>
-          <aside class="notes" data-markdown>Exploit the fact that the control effectiveness matrix is invertible.
+          <aside class="notes" data-markdown>They exploit the fact that the control effectiveness matrix is invertible.
           </aside>
         </section>
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
         <section data-background-iframe="media/Peng.pdf#zoom=160&page=3">
+          <aside class="notes" data-markdown>Lets quickly take a look at their control effect model. Because it gives
+            you
+            some insight in the problem we are trying to solve.
+          </aside>
         </section>
 
         <section>
@@ -334,13 +345,13 @@ Helps picking a control strategy
 with: <br>
 - thrust $T$, torques $\tau$
 - thrust constant $b$, torque constant $d$, arm length $L$
-- rotor speed $\omega$
+- rotor speeds $\omega$
               </code>
           <aside class="notes" data-markdown>
-            Core of the problem. Divide left and right by the matrix.
+            On the left are forces and moments produced by the actuators as a function of the rotor speeds.
 
-            Given you can estimate the forces and moments, and have the rotor speeds, you can calculate the rotor speeds
-            necessary to produce them.
+            If we know the forces, moments and constants we can invert the matrix, get the rotor speeds you would expect
+            ... and compare them with the commanded or measured ones.
           </aside>
         </section>
 
@@ -361,9 +372,8 @@ with: <br>
 
                 </code>
           <aside class="notes" data-markdown>
-            Core of the problem. Divide left and right by the matrix.
-
-            Given you can estimate the forces and moments, you can calculate the rotor speeds necessary to produce them.
+            Problem is you can't measure these forces and moments directly ... sensors also measure disturbances ... and
+            for example aerodynamic moments when youre flying at speed
           </aside>
         </section>
 
@@ -376,8 +386,8 @@ with: <br>
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
         <section data-background-iframe="media/Smeur.pdf#zoom=160&page=1">
-          <aside class="notes" data-markdown>We used this as the base line controller. No fault detection method, but
-            adaptive.
+          <aside class="notes" data-markdown>This paper does not give a fault detection method ... but it does give a
+            method for estimating control effectiveness ... which is what we need ...
           </aside>
         </section>
 
@@ -392,14 +402,16 @@ with: <br>
  - Estimating 16 + 4 control effectiveness parameters
  - Using LMS
  - Takes seconds to converge
+- Works in real world
           </code>
-          <aside class="notes" data-markdown>We used this as the base line controller. To synchronize. 4 actuators x 4
-            accelerations +
-            4 actuator accelerations.</aside>
+          <aside class="notes" data-markdown>Unfortunately, it takes seconds to converge
+            instead of miliseconds, but it is a nice starting point.</aside>
         </section>
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
-        <section data-background-iframe="media/Smeur.pdf#zoom=160&page=14">
+        <section data-background-iframe="media/Smeur.pdf#zoom=180&page=14">
+          <aside class="notes" data-markdown>These charts show the adapting control effectiveness. This all happened
+            around 2016</aside>
         </section>
 
         <!-- 
@@ -434,7 +446,8 @@ with: <br>
 - Linearized around hover
 - Very complex..
                 </code>
-          <aside class="notes" data-markdown>Very complex, as shown.</aside>
+          <aside class="notes" data-markdown>Disturbances are difficult to estimate because they give they can be
+            indistinguishable from actuator failures.</aside>
         </section>
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
@@ -443,6 +456,7 @@ with: <br>
 
         <!-- https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html -->
         <section data-background-iframe="media/Zhong.pdf#zoom=160&page=8">
+          <aside class="notes" data-markdown>All these numbers correspond to the equations from previous slide.</aside>
         </section>
 
 
@@ -495,7 +509,7 @@ with: <br>
 - Often questionable assumptions
 - Little real world validation
                   </code>
-          <aside class="notes" data-markdown>There is some </aside>
+          <aside class="notes" data-markdown>This is also based on papers I didn't show you.</aside>
         </section>
 
         <section>
@@ -503,8 +517,7 @@ with: <br>
           <q>Find an efficient and reliable fault detection and isolation method that detects actuator faults.</q>
           <p>
           </p>
-          <aside class="notes" data-markdown>Not very specific yet. Ultimately an optimization problem. What are we
-            optimizing for?
+          <aside class="notes" data-markdown>Lets look at the efficient and reliable.
           </aside>
         </section>
 
@@ -516,9 +529,12 @@ Little waste of resources like:
 - Computational time
 - MAV operator time
             </code>
-          <aside class="notes" data-markdown>If we want companies to use our methods they need to be cheap/easy to
-            implement,
-            validate, tune. Low complexity, computationally efficient.
+          <aside class="notes" data-markdown>We want companies to apply our methods. So, they need to be cheap and easy
+            to implement.
+
+            They need have low complexity.
+
+            And not cause more headaches than they prevent.
           </aside>
         </section>
 
@@ -529,9 +545,8 @@ Little waste of resources like:
 - Low probability of false alarm
 - Low complexity
           </code>
-          <aside class="notes" data-markdown>First point is obvious. Second one harder: detecting is one thing, *not*
-            detecting
-            another. How do you prove that something does not happen? For example: when taking off, doing manoeuvres.
+          <aside class="notes" data-markdown>First point is obvious. Second one harder. For example: when taking off,
+            doing manoeuvres. How do you validate this?
           </aside>
         </section>
 
@@ -552,9 +567,10 @@ Little waste of resources like:
  - Thresholds on residuals or estimated parameters
  - Fuzzy
         </code>
-          <aside class="notes" data-markdown>Found in literature. This is ugliest slide.
+          <aside class="notes" data-markdown>
+            This is a bit of a showdown of all ideas found in literature and at the coffee machine.
 
-            "Problem space" is also large because all possible modes.
+            You can look at it for a second.
           </aside>
         </section>
 
@@ -564,7 +580,7 @@ Little waste of resources like:
 - No analytical solution
 - Lots off tradeoffs
           </code>
-          <aside class="notes" data-markdown>No analytical solution means we need iterations to get to a efficient and
+          <aside class="notes" data-markdown>This means we need iterations to get to an efficient and
             reliable solution.</aside>
         </section>
 
@@ -573,7 +589,11 @@ Little waste of resources like:
 ## Problem
 Iterations are slow
             </code>
-          <aside class="notes" data-markdown>..because it takes months to implement something in Paparazzi</aside>
+          <aside class="notes" data-markdown>The problem is iterations are slow.
+
+            There are many reasons why iterations are slow.
+
+            One of them is because it takes months to implement anything in Paparazzi.</aside>
         </section>
 
         <section>
@@ -589,8 +609,8 @@ Iterations are slow
               </li>
             </ol>
           </p>
-          <aside class="notes" data-markdown>Coming up with a good solutions requires a iterative approach, not
-            sequential.</aside>
+          <aside class="notes" data-markdown>So that bring me to the research strategy. Lets see what iteration looks
+            like.</aside>
         </section>
       </section>
 
@@ -612,16 +632,17 @@ Iterations are slow
                 Retrieve, visualize log data
               </li>
               <li>
-                Check assumptions, performance, adjust design
+                Check assumptions, performance and adjust
               </li>
             </ol>
           </p>
-          <aside class="notes" data-markdown>Let's look at what iteration looks like. Debatable.\n
-            Assuming we have a model (we have)
+          <aside class="notes" data-markdown>
+            Step 1 includes some verification step
+            Step 3 to 5 include some validation
 
-            System can be for example a controller or observer
+            The best way to speed things up is by applying automation.
 
-            1) verification 5) validation
+            Lets look at an example.
           </aside>
         </section>
 
@@ -632,26 +653,36 @@ Goal is to automate step 2 (implementation),
 
 by going from a Simulink model to C++ library to be used in PX4
             </code>
-          <aside class="notes" data-markdown>This process cut implementation time from months/weeks range to
-            days/minutes. Let's go through example, starts a bit silly.</aside>
+          <aside class="notes" data-markdown>
+            U picked this example because it's most extreme.
+
+            This process cuts implementation time from the months to weeks range to the
+            days to minutes range.
+
+            Let's go through example, it starts a bit silly.</aside>
         </section>
 
         <section>
           <img src="media/ratecontrol.png" class="no-border"></img>
-          <aside class="notes" data-markdown>Start with a model, don't look at the model.</aside>
+          <aside class="notes" data-markdown>We start with a model, don't look at the model.</aside>
         </section>
 
         <section>
           <img src="media/coder_options.png" class="no-border"></img>
-          <aside class="notes" data-markdown>Need to set some </aside>
+          <aside class="notes" data-markdown>We open the Simulink Coder options window and lets assume I figured out
+            which boxes to check and buttons to click</aside>
         </section>
 
         <section>
           <img src="media/ratecontrol.png" class="no-border"></img>
           <img src="media/coder_button.png" class="inset fragment" style="left: 420px; top: 20px"></img>
-          <aside class="notes" data-markdown>Issue, is: I can only communicate this process via word of mouth or by
-            writing a
-            manual. Process will get lost. Students get stuck writing C in Paparazzi</aside>
+          <aside class="notes" data-markdown>The issue, is: I can only communicate this process via word of mouth ... or
+            by writing some manual or putting it in the appendix of my report.
+
+            This means the process will get lost and students get stuck writing C in Paparazzi forever.
+
+            Or stay in the warm and cozy Simulink safe zone.
+          </aside>
         </section>
 
         <section>
@@ -707,14 +738,14 @@ function [success] = copyToPx4Codegen(file, px4CodegenDir, verbose)
     if verbose, disp(message), end
 end
               </code></pre>
-          <aside class="notes" data-markdown>Better. Script, can send this around via email, put in code repository.
-            But:
-            Can't
-            work with multiple people on it.
-            End up with copies.
-            Untested.
-            Doesn't fit well in rest of
-            pipeline.</aside>
+          <aside class="notes" data-markdown>This is better. Some part of the process scripted, can send this around via
+            email, put in code repository.
+            But: - Can't work with multiple people on it.
+            - End up with copies.
+            - Untested.
+            - Doesn't fit well in rest of pipeline
+            - There is more I want to automate
+          </aside>
         </section>
 
         <section>
@@ -723,7 +754,7 @@ end
           <small><a
               href="https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-languages">Stackoverflow
               2019 Developer Survey</a></small>
-          <aside class="notes" data-markdown></aside>
+          <aside class="notes" data-markdown>So I made a big jump to Python, I didn't knew Python so wanted to learn it.</aside>
         </section>
 
         <section>
@@ -743,7 +774,7 @@ def test_codegen(project):
     model.engine.quit()
           </code></pre>
 
-          <aside class="notes" data-markdown>matlablib.py is Python wrapper around a Simulink model, Pytest</aside>
+          <aside class="notes" data-markdown>Using</aside>
 
         </section>
 
@@ -951,21 +982,23 @@ Need support structure to facilitate this sharing and creation:
 Propeller ejection
 * Easier to replicate than broken arm
           </code>
-          <aside class="notes" data-markdown>Have to pick a failure case.
+          <aside class="notes" data-markdown>
+            Have to pick a failure case.
+
             There are many options possible.
-            Combinations of
-            actuators and sensors can fail.
           </aside>
         </section>
 
         <section>
           <img height="600px" src="media/carved_out_prop.jpg" style="margin: 15px auto; display: block">
           <aside class="notes" data-markdown>
+
           </aside>
         </section>
 
         <section data-background-video="media/prop_eject_recover.mp4" data-video-time="0">
           <aside class="notes" data-markdown>
+            This is without a fault detection delay.
           </aside>
         </section>
 
@@ -978,27 +1011,39 @@ Propeller ejection
       </section>
 
       <section>
-
         <section>
-          <h2>Remember solution space?</h2>
-          <img src="media/ratecontrol.png" class="no-border"></img>
-          <aside class="notes" data-markdown></aside>
-        </section>
-
-        <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
+          <h2>Current state of solution</h2>
           <aside class="notes" data-markdown>
-            Unmodeled dynamics example
+            Step 1 of research strategy was to speed up iteration.
+
+            Lets look at step 2.
           </aside>
         </section>
 
 
+        <section>
+          <h2>Remember solution space?</h2>
+          <img src="media/ratecontrol.png" class="no-border"></img>
+          <aside class="notes" data-markdown>
+            Lots of cooking
+          </aside>
+        </section>
+
+
+        <section>
+
+          <img src="diagrams/system-prelim.svg" width="70%" class="no-border center no-shadow"></img>
+          <aside class="notes" data-markdown>
+            Current state of affaires
+          </aside>
+        </section>
 
         <!-- /home/bramsvs/src/fddpaper/diagrams/system.pdf -->
 
 
         <section>
-          <h2>Control effectiveness model</h2>
-          <p data-markdown>`$$
+          <h2>Regression model</h2>
+          <p>$$
             \begin{bmatrix}
             \dot{p} \\
             \dot{q} \\ \hdashline
@@ -1006,9 +1051,9 @@ Propeller ejection
             \end{bmatrix}
             =
             \begin{bmatrix}
-            b \omega_1^2 & -b \omega_2^2 & -b \omega_3^2 & b \omega_4^2 \\
-            h \omega_1^2 & h \omega_2^2 & -h \omega_3^2 & -h \omega_4^2 \\ \hdashline
-            c_m \omega_1^2 & c_m \omega_2^2 & c_m \omega_3^2 & c_m \omega_4^2 \\
+            G_p \omega_1^2 & -G_p \omega_2^2 & -G_p \omega_3^2 & G_p \omega_4^2 \\
+            G_q \omega_1^2 & G_q \omega_2^2 & -G_q \omega_3^2 & -G_q \omega_4^2 \\ \hdashline
+            -G_{a_z} \omega_1^2 & -G_{a_z} \omega_2^2 & -G_{a_z} \omega_3^2 & -G_{a_z} \omega_4^2 \\
             \end{bmatrix}
             \begin{bmatrix}
             k_1 \\
@@ -1016,28 +1061,50 @@ Propeller ejection
             k_3 \\
             k_4 \\
             \end{bmatrix}
-            $$`</p>
+            $$</p>
+          <code class="no-code-but-p" data-markdown>
+Estimating scaling factor $k$, 0 means total failure, 1 nominal effect
+          </code>
+          <aside class="notes" data-markdown>
+            Nicely filters out disturbances.
+          </aside>
         </section>
+
         <section>
           <h2>Binary classification problem</h2>
           <code class="no-code-but-p">
-            Given variance $ \sigma^2_\beta $, we can compute the probability $P(\beta < \beta_\text{thres})$
+            Given variance $ \sigma^2_k $, we can compute the probability
+            <br>
+            <br>
+             $$P_\text{fail} = P(k < k_\text{thres})$$
+             <small>
+                with $k_\text{thres} = 0.25$
+              </small>
             <br><br>
+            Then
             $$
-            {i_\text{act}}_\text{fail} =
+            \text{act}_{i_\text{failed}} =
             \begin{cases}
-            1 & \text{if}\ P(\beta < \beta_\text{thres}) > P_\text{thres}\\
-            0 & \text{if}\ P(\beta > \beta_\text{thres}) < P_\text{thres}\\
+            1 & \text{if}\ P_\text{fail} > P_\text{thres}\\
+            0 & \text{if}\ P_\text{fail} < P_\text{thres}\\
             \end{cases}
             $$
-            <br>
             <small>
-              with $\beta_\text{thres} = 0.25$, $P_\text{thres} = 0.9$
+              with $P_\text{thres} = 0.9$
             </small>
           </code>
+          <aside class="notes" data-markdown>
+            Simplest version
+          </aside>
         </section>
-      </section>
 
+        <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
+          <aside class="notes" data-markdown>
+            Nicely filters out disturbances.
+          </aside>
+        </section>
+
+      </section>
 
       <section style="text-align: left;">
         <h3>Questions? Comments?</h3>
