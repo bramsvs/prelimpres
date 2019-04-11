@@ -55,9 +55,8 @@
 
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
-      <section>
+      <section style="text-align: left;">
         <h1>Actuator fault detection</h1>
-        <h3></h3>
         <p>
           <small>Bram Strack van Schijndel</small>
         </p>
@@ -754,7 +753,8 @@ end
           <small><a
               href="https://insights.stackoverflow.com/survey/2019#technology-_-most-loved-dreaded-and-wanted-languages">Stackoverflow
               2019 Developer Survey</a></small>
-          <aside class="notes" data-markdown>So I made a big jump to Python, I didn't knew Python so wanted to learn it.</aside>
+          <aside class="notes" data-markdown>So I made a big jump to Python, I didn't knew Python so wanted to learn it.
+          </aside>
         </section>
 
         <section>
@@ -774,7 +774,7 @@ def test_codegen(project):
     model.engine.quit()
           </code></pre>
 
-          <aside class="notes" data-markdown>Using</aside>
+          <aside class="notes" data-markdown>When using Python you can start applying good tools like Pytest.</aside>
 
         </section>
 
@@ -838,9 +838,7 @@ MODEL_CONFIGS: Dict[str, ModelConfig] = {
   ),
 }
               </code></pre>
-          <aside class="notes" data-markdown>Configurable, example data are used for automated testing. Do the tests
-            still run if the
-            model changes?</aside>
+          <aside class="notes" data-markdown>And more easily make the process more configurable.</aside>
         </section>
 
         <section>
@@ -861,7 +859,8 @@ Commands:
   toptest
 $ █
               </code></pre>
-          <aside class="notes" data-markdown>Solution that scales to multiple use cases and is friendly to new people
+          <aside class="notes" data-markdown>All in order to get to solution that scales to multiple use cases and is
+            friendly to new people
           </aside>
         </section>
 
@@ -880,8 +879,13 @@ Options:
 $ █
           </code></pre>
 
-          <aside class="notes" data-markdown>(example) codegen help,
-            note model options
+          <aside class="notes" data-markdown>
+            This is the help text for the codegen program.
+
+            It guides you to the config file if needed.
+
+            Or gracefully handles typos.
+
             This is why Sihao and Matthias enjoy
             working with me so much.</aside>
         </section>
@@ -892,11 +896,11 @@ $ █
 Went from:
 - Clicking buttons
 - To a script
-- To functions/classes
+- To functions/classes (in Python)
 - To adding configuration file
 - To building command line interace
                 </code>
-          <aside class="notes" data-markdown></aside>
+          <aside class="notes" data-markdown>Just a quick recap.</aside>
         </section>
 
         <section>
@@ -912,29 +916,22 @@ Went from:
         <section>
           <code class="no-code-but-p" data-markdown>
 ## Lessons learned
-Must consume and build scriptable interfaces:
-- Consume Matlab Python API
-- Build CLI with Python Click package
+
+- Must consume and build scriptable interfaces:
+ - Matlab Python API
+ - Python Click
+
+- Only worth the effort if more people benefit and contribute back
+
+- Need support structure to facilitate this sharing and creation:
+ - Source control
+ - Automated testing
+ - Good readme, documentation
+ - Good IDE support
                 </code>
-          <aside class="notes" data-markdown></aside>
-        </section>
-
-
-        <section>
-          <code class="no-code-but-p" data-markdown>
-## More lessons learned
-
-Only worth the effort if more people benefit and contribute back.
-
-Need support structure to facilitate this sharing and creation:
-- Source control
-- Automated testing
-- Readme, documentation
-- Good IDE support
-                  </code>
-          <aside class="notes" data-markdown>Organisational wise. Applies to many software project, open source
-            projects. Must make
-            the barrier to entry very low.</aside>
+          <aside class="notes" data-markdown>Some lessons I learned, there more examples of automation that should
+            happen here, so you better take a hard look at this.
+          </aside>
         </section>
 
         <!-- <section>
@@ -954,8 +951,8 @@ Need support structure to facilitate this sharing and creation:
 - Fly, log data
 - Replay flight data in Simulink (big shortcut)
               </code>
-          <aside class="notes" data-markdown>Now we have our codegenned library.
-            We can do some tricks.</aside>
+          <aside class="notes" data-markdown>Now we have our codegenned library, lets skip some steps and look at set
+            up.</aside>
         </section>
 
       </section>
@@ -966,24 +963,23 @@ Need support structure to facilitate this sharing and creation:
 
           <img src="diagrams/process-prelim.svg" width="60%" class="no-border center no-shadow"></img>
           <aside class="notes" data-markdown>
-            This is what the codegen and replay process looks like.
-
             Fat arrow is the codegen.
 
-            Have the fault detection in an on- and offline environment.
-
             With Simulink on top, Bebop 2 running PX4 at the bottom.
+
+            We are logging inputs in PX4 so they can be replayed in Simulink
           </aside>
         </section>
 
         <section>
           <code class="no-code-but-p" data-markdown>
 ## Failure case
+
 Propeller ejection
 * Easier to replicate than broken arm
           </code>
           <aside class="notes" data-markdown>
-            Have to pick a failure case.
+            Lets see if we can simulate some failures in the real world.
 
             There are many options possible.
           </aside>
@@ -992,20 +988,26 @@ Propeller ejection
         <section>
           <img height="600px" src="media/carved_out_prop.jpg" style="margin: 15px auto; display: block">
           <aside class="notes" data-markdown>
+            We eject the propeller by cutting off an actuator.
 
+            .. or by giving large yaw inputs.
           </aside>
         </section>
 
         <section data-background-video="media/prop_eject_recover.mp4" data-video-time="0">
           <aside class="notes" data-markdown>
-            This is without a fault detection delay.
+            This is an example of what it looks like.
           </aside>
         </section>
 
         <section data-state="prop-eject" data-background-video="media/prop_eject.mp4" data-video-time="1">
           <p id="propEjectTime" style="color: white; text-align: right; padding-right: 150px">0 ms<br>0 samples</p>
           <aside class="notes" data-markdown>
-            Look at front right propeller (most left one for us)
+            And in slow motion.
+
+            Look at front right propeller (most left one for us).
+
+            The controller and sensors run at 500 Hz
           </aside>
         </section>
       </section>
@@ -1016,7 +1018,7 @@ Propeller ejection
           <aside class="notes" data-markdown>
             Step 1 of research strategy was to speed up iteration.
 
-            Lets look at step 2.
+            Lets quickly look at step 2.
           </aside>
         </section>
 
@@ -1025,16 +1027,23 @@ Propeller ejection
           <h2>Remember solution space?</h2>
           <img src="media/ratecontrol.png" class="no-border"></img>
           <aside class="notes" data-markdown>
-            Lots of cooking
+            A lot of estimation methods were dumped in this model.
+
+            The inputs on the left are gyro, accelerometer (only z), rate and thrust setpoints and rpm measurements.
+
+            Outputs are actuator setpoints
           </aside>
         </section>
 
 
         <section>
-
           <img src="diagrams/system-prelim.svg" width="70%" class="no-border center no-shadow"></img>
           <aside class="notes" data-markdown>
-            Current state of affaires
+            This is the current state of affairs.
+
+            I'm using some of the same principles as with Ewouds INDI controller, you're maybe familair with.
+
+            Lets look at whats in the Kalman estimator.
           </aside>
         </section>
 
@@ -1063,15 +1072,21 @@ Propeller ejection
             \end{bmatrix}
             $$</p>
           <code class="no-code-but-p" data-markdown>
-Estimating scaling factor $k$, 0 means total failure, 1 nominal effect
+Estimating scaling factor $k$, 0 means total failure, 1 nominal
           </code>
           <aside class="notes" data-markdown>
-            Nicely filters out disturbances.
+            These are basically the measurement equations, measurements are on the left.
+
+            Like random walk.
+
+            Estimating the contribution from each actuator to the accelerations.
+
+            The covariance can blow up, but thats maybe not a problem.
           </aside>
         </section>
 
         <section>
-          <h2>Binary classification problem</h2>
+          <h2>Hypothesis test</h2>
           <code class="no-code-but-p">
             Given variance $ \sigma^2_k $, we can compute the probability
             <br>
@@ -1094,20 +1109,24 @@ Estimating scaling factor $k$, 0 means total failure, 1 nominal effect
             </small>
           </code>
           <aside class="notes" data-markdown>
+            Taking the diagonal from the covariance matrix.
+
+            This gives a pretty convincing signal.
+
             Simplest version
           </aside>
         </section>
 
-        <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
+        <!-- <section data-background-video="media/vibrating_mess.mp4" data-video-time="2">
           <aside class="notes" data-markdown>
             Nicely filters out disturbances.
           </aside>
-        </section>
+        </section> -->
 
       </section>
 
-      <section style="text-align: left;">
-        <h3>Questions? Comments?</h3>
+      <section style="text-align: left;" data-background-video="media/vibrating_mess.mp4" data-video-loop="loop">
+        <h2 style="color: white; margin-top: -170px; margin-left: 280px">Questions? Comments?</h2>
         <!-- <p>
           - <a href="https://slides.com">Try the online editor</a> <br>
           - <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
@@ -1416,6 +1435,7 @@ Estimating scaling factor $k$, 0 means total failure, 1 nominal effect
     Reveal.addEventListener('slidechanged', event => {
       const slide = event.currentSlide
       const time = getVidStartTime(slide)
+      const loop = getLoopBool(slide)
 
       // can't find video element without timeout
       setTimeout(() => {
@@ -1431,11 +1451,20 @@ Estimating scaling factor $k$, 0 means total failure, 1 nominal effect
           PAUSED_VID = true;
 
         }
+        if (loop) {
+          const video = getPresentBackgroundVideo()
+          video.loop = true
+          video.play()
+        }
       }, 0)
     })
 
     function getVidStartTime(slide) {
       return slide.getAttribute('data-video-time')
+    }
+
+    function getLoopBool(slide) {
+      return slide.getAttribute('data-video-loop')
     }
 
     function replayVid() {
